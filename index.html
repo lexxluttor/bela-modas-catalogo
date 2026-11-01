@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F8F4F0">
+<title>Bela Modas | Catálogo</title>
+
+<style>
+:root {
+  --fundo: #F8F4F0;
+  --texto: #302724;
+  --principal: #9B554C;
+  --claro: #EAD8D0;
+  --suave: #897970;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: Arial, sans-serif;
+}
+
+.topo {
+  background: var(--principal);
+  color: white;
+  text-align: center;
+  padding: 11px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+header {
+  max-width: 1150px;
+  margin: auto;
+  padding: 28px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: Georgia, serif;
+  font-size: 35px;
+  letter-spacing: 2px;
+}
+
+.slogan {
+  color: var(--suave);
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+.header-info {
+  color: var(--suave);
+  font-size: 11px;
+  text-align: right;
+  line-height: 1.7;
+}
+
+.destaque {
+  max-width: 1150px;
+  margin: auto;
+  padding: 5px 22px 30px;
+}
+
+.banner {
+  background: var(--claro);
+  min-height: 245px;
+  padding: 45px clamp(22px, 7vw, 75px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.chamada {
+  color: var(--principal);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: normal;
+  max-width: 480px;
+  margin: 0 0 13px;
+}
+
+.banner p {
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 400px;
+  color: #5D4C46;
+}
+
+.selo {
+  width: 135px;
+  height: 135px;
+  border: 1px solid #B98277;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--principal);
+  font: italic 27px Georgia, serif;
+  flex-shrink: 0;
+  margin-right: 5%;
+}
+
+main {
+  max-width: 1150px;
+  margin: auto;
+  padding: 20px 22px 65px;
+}
+
+.titulo-secao {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  margin: 15px 0 22px;
+}
+
+h2 {
+  font: normal 30px Georgia, serif;
+  margin: 0;
+}
+
+.subtitulo {
+  color: var(--suave);
+  font-size: 11px;
+  margin-top: 7px;
+}
+
+.busca {
+  width: 270px;
+  max-width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #DCCFC8;
+  background: white;
+  color: var(--texto);
+  font-size: 12px;
+  outline-color: var(--principal);
+}
+
+.categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 27px;
+}
+
+.categoria {
+  padding: 10px 17px;
+  border: 1px solid #D8C9C1;
+  border-radius: 25px;
+  background: transparent;
+  color: var(--texto);
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.categoria.ativa,
+.categoria:hover {
+  background: var(--principal);
+  color: white;
+  border-color: var(--principal);
+}
+
+.produtos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 25px 17px;
+}
+
+.produto {
+  min-width: 0;
+  cursor: pointer;
+}
+
+.foto {
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(145deg, #E9DDD5, #D5BFB3);
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  color: #876D62;
+}
+
+.foto span {
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.produto:nth-child(3n+2) .foto {
+  background: linear-gradient(145deg, #E5E1D8, #C7C0B2);
+}
+
+.produto:nth-child(3n) .foto {
+  background: linear-gradient(145deg, #EAD8D0, #D3AAA0);
+}
+
+.informacoes {
+  padding: 12px 2px;
+}
+
+.tipo {
+  color: #9B756A;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.nome {
+  font: 19px Georgia, serif;
+  margin: 7px 0;
+}
+
+.preco {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.disponibilidade {
+  color: var(--suave);
+  font-size: 10px;
+  margin-top: 6px;
+}
+
+.vazio {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: var(--suave);
+}
+
+footer {
+  background: #302724;
+  color: white;
+  text-align: center;
+  padding: 35px 20px;
+}
+
+footer strong {
+  font: normal 27px Georgia, serif;
+}
+
+footer p {
+  color: #CBBAB1;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-top: 10px;
+}
+
+.modal-fundo {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: rgba(26, 19, 17, .6);
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-fundo.aberto {
+  display: flex;
+}
+
+.modal {
+  width: min(420px, 100%);
+  background: var(--fundo);
+  padding: 30px;
+  position: relative;
+}
+
+.fechar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border: 0;
+  background: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.modal h3 {
+  font: normal 28px Georgia, serif;
+  margin: 10px 0;
+}
+
+.modal p {
+  color: var(--suave);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media(max-width: 800px) {
+  .produtos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .selo {
+    width: 100px;
+    height: 100px;
+    margin: 0;
+  }
+}
+
+@media(max-width: 520px) {
+  header {
+    padding: 22px 18px;
+  }
+
+  .logo {
+    font-size: 29px;
+  }
+
+  .header-info {
+    display: none;
+  }
+
+  .destaque,
+  main {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .banner {
+    padding: 30px 23px;
+    min-height: 220px;
+  }
+
+  .selo {
+    display: none;
+  }
+
+  .titulo-secao {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .busca {
+    width: 100%;
+  }
+
+  .nome {
+    font-size: 16px;
+  }
+
+  .produtos {
+    gap: 20px 11px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="topo">
+  Novidades e achadinhos esperando por você
+</div>
+
+<header>
+  <div>
+    <div class="logo">Bela Modas</div>
+    <div class="slogan">Seu estilo, sua essência</div>
+  </div>
+
+  <div class="header-info">
+    CATÁLOGO VIRTUAL<br>
+    MODA PARA TODOS OS MOMENTOS
+  </div>
+</header>
+
+<section class="destaque">
+  <div class="banner">
+    <div>
+      <div class="chamada">Vista-se de você</div>
+      <h1>Encontre sua próxima peça favorita.</h1>
+      <p>
+        Explore nossa coleção, descubra novidades
+        e encontre peças para todos os momentos.
+      </p>
+    </div>
+
+    <div class="selo">Bela</div>
+  </div>
+</section>
+
+<main>
+  <div class="titulo-secao">
+    <div>
+      <h2>Explore a coleção</h2>
+      <div class="subtitulo">
+        Uma vitrine feita para você navegar com calma.
+      </div>
+    </div>
+
+    <input
+      class="busca"
+      id="busca"
+      type="search"
+      placeholder="Buscar uma peça..."
+    >
+  </div>
+
+  <nav class="categorias">
+    <button class="categoria ativa" data-categoria="Todos">Todos</button>
+    <button class="categoria" data-categoria="Feminino">Feminino</button>
+    <button class="categoria" data-categoria="Masculino">Masculino</button>
+    <button class="categoria" data-categoria="Infantil">Infantil</button>
+    <button class="categoria" data-categoria="Acessórios">Acessórios</button>
+  </nav>
+
+  <section class="produtos" id="produtos"></section>
+</main>
+
+<footer>
+  <strong>Bela Modas</strong>
+  <p>MODA, CARINHO E PERSONALIDADE.</p>
+</footer>
+
+<div class="modal-fundo" id="modal">
+  <div class="modal">
+    <button class="fechar" id="fechar">×</button>
+    <div class="tipo" id="modal-tipo"></div>
+    <h3 id="modal-nome"></h3>
+    <p id="modal-preco"></p>
+    <p>Consulte a disponibilidade da peça com nossa equipe.</p>
+  </div>
+</div>
+
+<script>
+// PRODUTOS DE EXEMPLO
+// Depois substituiremos pelos produtos reais da loja.
+
+const produtos = [
+  {
+    codigo: "BM001",
+    nome: "Blusa feminina",
+    categoria: "Feminino",
+    preco: "Consulte o preço",
+    foto: ""
+  },
+  {
+    codigo: "BM002",
+    nome: "Camiseta masculina",
+    categoria: "Masculino",
+    preco: "Consulte o preço",
+    foto: ""
+  },
+  {
+    codigo: "BM003",
+    nome: "Conjunto infantil",
+    categoria: "Infantil",
+    preco: "Consulte o preço",
+    foto: ""
+  },
+  {
+    codigo: "BM004",
+    nome: "Bolsa casual",
+    categoria: "Acessórios",
+    preco: "Consulte o preço",
+    foto: ""
+  }
+];
+
+let categoriaAtual = "Todos";
+
+const areaProdutos = document.getElementById("produtos");
+const busca = document.getElementById("busca");
+const modal = document.getElementById("modal");
+
+function mostrarProdutos() {
+  const termo = busca.value.toLowerCase().trim();
+
+  const encontrados = produtos.filter(produto => {
+    const categoriaOk =
+      categoriaAtual === "Todos" ||
+      produto.categoria === categoriaAtual;
+
+    const buscaOk =
+      produto.nome.toLowerCase().includes(termo) ||
+      produto.codigo.toLowerCase().includes(termo);
+
+    return categoriaOk && buscaOk;
+  });
+
+  areaProdutos.innerHTML = "";
+
+  if (encontrados.length === 0) {
+    areaProdutos.innerHTML =
+      '<div class="vazio">Nenhuma peça encontrada.</div>';
+    return;
+  }
+
+  encontrados.forEach(produto => {
+    const card = document.createElement("article");
+    card.className = "produto";
+
+    const foto = document.createElement("div");
+    foto.className = "foto";
+
+    if (produto.foto) {
+      foto.style.background =
+        `center / cover no-repeat url("${produto.foto}")`;
+    } else {
+      const textoFoto = document.createElement("span");
+      textoFoto.textContent = "FOTO DO PRODUTO";
+      foto.appendChild(textoFoto);
+    }
+
+    const info = document.createElement("div");
+    info.className = "informacoes";
+
+    const tipo = document.createElement("div");
+    tipo.className = "tipo";
+    tipo.textContent = produto.categoria;
+
+    const nome = document.createElement("div");
+    nome.className = "nome";
+    nome.textContent = produto.nome;
+
+    const preco = document.createElement("div");
+    preco.className = "preco";
+    preco.textContent = produto.preco;
+
+    const disponibilidade = document.createElement("div");
+    disponibilidade.className = "disponibilidade";
+    disponibilidade.textContent = "Consulte disponibilidade";
+
+    info.append(tipo, nome, preco, disponibilidade);
+    card.append(foto, info);
+
+    card.addEventListener("click", () => abrirProduto(produto));
+
+    areaProdutos.appendChild(card);
+  });
+}
+
+function abrirProduto(produto) {
+  document.getElementById("modal-tipo").textContent =
+    produto.categoria;
+
+  document.getElementById("modal-nome").textContent =
+    produto.nome;
+
+  document.getElementById("modal-preco").textContent =
+    produto.preco;
+
+  modal.classList.add("aberto");
+}
+
+document.querySelectorAll(".categoria").forEach(botao => {
+  botao.addEventListener("click", () => {
+    categoriaAtual = botao.dataset.categoria;
+
+    document.querySelectorAll(".categoria").forEach(item => {
+      item.classList.toggle("ativa", item === botao);
+    });
+
+    mostrarProdutos();
+  });
+});
+
+busca.addEventListener("input", mostrarProdutos);
+
+document.getElementById("fechar").addEventListener("click", () => {
+  modal.classList.remove("aberto");
+});
+
+modal.addEventListener("click", evento => {
+  if (evento.target === modal) {
+    modal.classList.remove("aberto");
+  }
+});
+
+document.addEventListener("keydown", evento => {
+  if (evento.key === "Escape") {
+    modal.classList.remove("aberto");
+  }
+});
+
+mostrarProdutos();
+</script>
+
+</body>
+</html>
