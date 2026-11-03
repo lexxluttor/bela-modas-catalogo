@@ -6,7 +6,7 @@
   "use strict";
 
   const CONFIG = {
-    API_URL: "COLE_AQUI_A_URL_DO_APPS_SCRIPT",
+    API_URL: "https://script.google.com/macros/s/AKfycbz6AaXYjisiiGS3M7Za_18Dzf2u9bZACZPH_u5njtO_7cXLjuwNe9hBjTI7SydWsesy/exec",
     TIMEOUT: 30000,
     MAX_FOTO_BYTES: 5 * 1024 * 1024
   };
