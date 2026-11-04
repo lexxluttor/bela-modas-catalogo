@@ -4,16 +4,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#F8F4F0">
+<meta name="theme-color" content="#5B0614">
 <title>Bela Modas | Catálogo</title>
 
 <style>
 :root {
-  --fundo: #F8F4F0;
-  --texto: #302724;
-  --principal: #9B554C;
-  --claro: #EAD8D0;
-  --suave: #897970;
+  --fundo: #fff8ef;
+  --texto: #351018;
+  --principal: #650817;
+  --bordo-escuro: #30030b;
+  --dourado: #e5bd70;
+  --claro: #f6e6d2;
+  --suave: #82666a;
 }
 
 * {
@@ -28,97 +30,94 @@ body {
 }
 
 .topo {
-  background: var(--principal);
-  color: white;
+  background: linear-gradient(100deg, #2b0208, #720b1d 52%, #2b0208);
+  color: #f7dca2;
   text-align: center;
-  padding: 11px;
+  padding: 11px 14px;
   font-size: 11px;
-  letter-spacing: 2px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  border-bottom: 1px solid rgba(229,189,112,.8);
 }
-
 header {
   max-width: 1150px;
   margin: auto;
-  padding: 28px 22px;
+  padding: 24px 22px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 18px;
 }
-
+.marca { min-width: 0; }
 .logo {
-  font-family: Georgia, serif;
-  font-size: 35px;
-  letter-spacing: 2px;
+  color: #790e24;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: -2px;
+  text-shadow: 0 1px 0 #f1d49b;
 }
-
+.logo span { color: #b78238; }
 .slogan {
-  color: var(--suave);
+  color: #7d5d52;
   font-size: 10px;
-  letter-spacing: 3px;
-  margin-top: 6px;
+  letter-spacing: 2.6px;
+  margin-top: 9px;
   text-transform: uppercase;
 }
-
 .header-info {
   color: var(--suave);
   font-size: 11px;
   text-align: right;
   line-height: 1.7;
 }
-
-.destaque {
-  max-width: 1150px;
-  margin: auto;
-  padding: 5px 22px 30px;
-}
-
+.destaque { max-width: 1150px; margin: auto; padding: 5px 22px 22px; }
 .banner {
-  background: var(--claro);
-  min-height: 245px;
-  padding: 45px clamp(22px, 7vw, 75px);
+  position: relative;
+  background: radial-gradient(ellipse at 78% 22%, #7b1027 0%, #560614 42%, #280208 100%);
+  color: #fff8ed;
+  min-height: 225px;
+  padding: clamp(28px, 5vw, 55px) clamp(22px, 6vw, 66px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
+  border: 1px solid #d7ad60;
+  border-radius: 18px 18px 5px 5px;
+  box-shadow: 0 14px 28px rgba(58, 4, 15, .14);
 }
-
-.chamada {
-  color: var(--principal);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 15px;
-}
-
-h1 {
-  font-family: Georgia, serif;
-  font-size: clamp(30px, 5vw, 44px);
-  font-weight: normal;
-  max-width: 480px;
-  margin: 0 0 13px;
-}
-
-.banner p {
-  font-size: 13px;
-  line-height: 1.7;
-  max-width: 400px;
-  color: #5D4C46;
-}
-
-.selo {
-  width: 135px;
-  height: 135px;
-  border: 1px solid #B98277;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  color: var(--principal);
-  font: italic 27px Georgia, serif;
-  flex-shrink: 0;
-  margin-right: 5%;
-}
-
+.banner:before, .banner:after { content: '✦'; position: absolute; color: #f4d18a; opacity: .8; }
+.banner:before { right: 28px; top: 16px; font-size: 26px; }
+.banner:after { right: 68px; top: 34px; font-size: 15px; }
+.chamada { color: #f1d08b; font-size: 11px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; margin-bottom: 14px; }
+h1 { font-family: Georgia, serif; font-size: clamp(32px, 5vw, 49px); line-height: 1.08; font-weight: normal; max-width: 620px; margin: 0 0 13px; }
+.banner p { font-size: 14px; line-height: 1.75; max-width: 500px; color: #f5e6df; margin-bottom: 0; }
+.vitrine-destaques { max-width: 1150px; margin: 0 auto; padding: 10px 22px 30px; }
+.titulo-destaques { display:flex; justify-content:space-between; align-items:end; gap:14px; margin: 4px 0 16px; }
+.titulo-destaques h2 { color:#5d0717; font: italic normal clamp(25px,4vw,36px) Georgia,serif; }
+.titulo-destaques p { color:#82666a; font-size:12px; margin:7px 0 0; }
+.controles-destaque { display:flex; gap:8px; flex-shrink:0; }
+.controles-destaque button { width:38px;height:38px;border-radius:50%;border:1px solid #d6ad65;background:#650817;color:#fff3d8;font-size:23px;cursor:pointer; }
+.carrossel-destaques { display:flex; gap:15px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding:4px 2px 15px; scrollbar-width:thin; scrollbar-color:#b88748 #f2e4d5; }
+.card-destaque { flex:0 0 min(78%, 360px); min-width:0; scroll-snap-align:start; overflow:hidden; border:1px solid #e0bd7a; border-radius:14px; background:#fffaf3; box-shadow:0 7px 18px rgba(69,7,20,.12); }
+.foto-destaque { position:relative; height:clamp(280px, 48vw, 420px); background:linear-gradient(145deg,#f1e2d4,#d9c1b0); overflow:hidden; }
+.foto-destaque img { width:100%;height:100%;object-fit:cover;display:block; }
+.selo-destaque { position:absolute;top:12px;left:12px;background:#650817;color:#f9dda2;padding:7px 11px;border:1px solid #e5bd70;border-radius:30px;font-size:10px;letter-spacing:1px;text-transform:uppercase; }
+.info-destaque { padding:15px 16px 17px; display:grid; grid-template-columns:1fr auto; gap:7px 12px; align-items:center; }
+.categoria-destaque { color:#9a6e39;font-size:10px;letter-spacing:1.5px;text-transform:uppercase; }
+.nome-destaque { color:#3a0b15;font:normal 21px Georgia,serif;margin-top:5px; }
+.preco-destaque { color:#790e20;font-size:20px;font-weight:800;white-space:nowrap; }
+.ver-destaque { grid-column:1/-1;width:100%;padding:11px 12px;border:0;border-radius:7px;background:linear-gradient(100deg,#f1d08a,#d9a64e);color:#3b0710;font-weight:700;cursor:pointer; }
+.pontos-carrossel { display:flex;justify-content:center;gap:8px;margin:2px 0 0; }
+.ponto-carrossel { width:9px;height:9px;border:0;border-radius:50%;background:#d4b8a5;padding:0;cursor:pointer; }
+.ponto-carrossel.ativo { background:#720b1d;transform:scale(1.25); }
+.categorias-visuais { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:8px 0 30px; }
+.categoria-visual { border:1px solid #d9ad61;border-radius:12px;background:linear-gradient(135deg,#650817,#30030b);color:#fff3dc;min-height:88px;padding:17px 10px;text-align:center;cursor:pointer;box-shadow:0 5px 14px rgba(69,7,20,.1); }
+.categoria-visual strong { display:block;font:italic 22px Georgia,serif;color:#f2d18e;margin-bottom:7px; }
+.categoria-visual span { font-size:10px;letter-spacing:1px;text-transform:uppercase; }
 main {
   max-width: 1150px;
   margin: auto;
@@ -248,22 +247,21 @@ h2 {
 }
 
 footer {
-  background: #302724;
+  background: linear-gradient(120deg, #280208, #650817 52%, #280208);
   color: white;
   text-align: center;
-  padding: 35px 20px;
+  padding: 35px 20px 28px;
+  border-top: 1px solid #d7ad60;
 }
 
 footer strong {
   font: normal 27px Georgia, serif;
 }
 
-footer p {
-  color: #CBBAB1;
-  font-size: 10px;
-  letter-spacing: 2px;
-  margin-top: 10px;
-}
+footer p { color:#e6c98c; font-size:10px; letter-spacing:2px; margin:10px 0 22px; }
+#abrir-admin { background:transparent; color:#f5d58f; border:1px solid #d7ad60; border-radius:8px; padding:12px 18px; font-weight:700; cursor:pointer; }
+#abrir-admin:hover { background:#7b1027; }
+
 
 .modal-fundo {
   display: none;
@@ -348,110 +346,78 @@ footer p {
 #progresso-salvamento.visivel { display:block; }
 .aviso-demo { font-size:12px; color:var(--suave); line-height:1.6; background:#F0E6DF; padding:12px; margin:12px 0; }
 [hidden] { display:none !important; }
-@media(max-width:520px) { header { align-items:flex-start; gap:12px; padding:20px 12px; } .logo { font-size:27px; } .header-info { display:block; text-align:right; font-size:9px; max-width:58%; } #abrir-admin { max-width:100%; white-space:normal; line-height:1.5; padding:12px 9px!important; font-size:11px!important; } .acao-header { padding:7px 8px; } .linha-form { grid-template-columns:1fr; } }
-
-@media(max-width: 800px) {
-  .produtos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .selo {
-    width: 100px;
-    height: 100px;
-    margin: 0;
-  }
+@media (max-width: 800px) {
+  .produtos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vitrine-destaques, .destaque, main { padding-left:16px; padding-right:16px; }
+  .card-destaque { flex-basis:min(82%, 340px); }
 }
-
-@media(max-width: 520px) {
-  header {
-    padding: 22px 18px;
-  }
-
-  .logo {
-    font-size: 29px;
-  }
-
-  .header-info {
-    display: block;
-    text-align: right;
-    font-size: 9px;
-    max-width: 60%;
-    min-width: 0;
-  }
-
-  .destaque,
-  main {
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-
-  .banner {
-    padding: 30px 23px;
-    min-height: 220px;
-  }
-
-  .selo {
-    display: none;
-  }
-
-  .titulo-secao {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .busca {
-    width: 100%;
-  }
-
-  .nome {
-    font-size: 16px;
-  }
-
-  .produtos {
-    gap: 20px 11px;
-  }
+@media (max-width: 520px) {
+  header { padding:20px 16px 15px; align-items:center; gap:10px; }
+  .logo { font-size:35px; letter-spacing:-1.5px; }
+  .slogan { font-size:8px; letter-spacing:1.6px; }
+  .header-info { font-size:9px; max-width:44%; }
+  .acao-header { padding:8px 10px; }
+  .destaque { padding-top:2px; }
+  .banner { min-height:240px; padding:30px 22px; border-radius:14px 14px 4px 4px; }
+  h1 { font-size:34px; }
+  .banner p { font-size:13px; }
+  .vitrine-destaques { padding-top:12px; padding-bottom:22px; }
+  .titulo-destaques { align-items:center; }
+  .titulo-destaques p { font-size:11px; line-height:1.4; }
+  .controles-destaque button { width:34px;height:34px; }
+  .card-destaque { flex-basis:86%; }
+  .foto-destaque { height:330px; }
+  .nome-destaque { font-size:19px; }
+  .preco-destaque { font-size:18px; }
+  .categorias-visuais { gap:8px; }
+  .categoria-visual { padding:14px 6px; min-height:82px; }
+  .categoria-visual strong { font-size:18px; }
+  .categoria-visual span { font-size:9px; }
+  .titulo-secao { flex-direction:column; align-items:stretch; }
+  .busca { width:100%; }
+  .nome { font-size:16px; }
+  .produtos { gap:20px 11px; }
+  .linha-form { grid-template-columns:1fr; }
+  .painel-conteudo { padding:20px 16px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="topo">
-  Novidades e achadinhos esperando por você
-</div>
-
+<div class="topo">✦ ESPECIAL DE NATAL · PRESENTES E LOOKS PARA TODA A FAMÍLIA · BELA MODAS ✦</div>
 <header>
-  <div>
-    <div class="logo">Bela Modas</div>
-    <div class="slogan">Seu estilo, sua essência</div>
+  <div class="marca">
+    <div class="logo">Bela <span>Modas</span></div>
+    <div class="slogan">Moda para toda família</div>
   </div>
-
-  <div class="header-info">
-    CATÁLOGO VIRTUAL<br>
-    MODA PARA TODOS OS MOMENTOS<br><br>
-    <button class="acao-header" id="abrir-carrinho">Sacola (<span id="total-carrinho">0</span>)</button>
-    <div style="margin-top:12px;text-align:right">
-      <button class="acao-header" id="abrir-admin" type="button" style="background:#2f5d50!important;color:#fff!important;border:2px solid #2f5d50!important;font-weight:700;padding:14px 16px;border-radius:8px;font-size:13px;cursor:pointer;display:inline-block">⚙ CONFIGURAR CATÁLOGO<br>＋ ADICIONAR PRODUTOS E FOTOS</button>
-    </div>
+  <div class="header-info">CATÁLOGO VIRTUAL<br>MODA PARA TODOS OS MOMENTOS<br><br>
+    <button class="acao-header" id="abrir-carrinho" type="button">Sacola (<span id="total-carrinho">0</span>)</button>
   </div>
 </header>
-
 <section class="destaque">
   <div class="banner">
     <div>
-      <div class="chamada">Vista-se de você</div>
-      <h1>Encontre sua próxima peça favorita.</h1>
-      <p>
-        Explore nossa coleção, descubra novidades
-        e encontre peças para todos os momentos.
-      </p>
+      <div class="chamada">✦ Especial de Natal · Bela Modas ✦</div>
+      <h1>Presentes especiais, looks inesquecíveis.</h1>
+      <p>Encontre seu próximo look para celebrar o Natal com estilo. Moda feminina, masculina e infantil para toda a família.</p>
     </div>
-
-    <div class="selo">Bela</div>
   </div>
 </section>
-
+<section class="vitrine-destaques" aria-label="Produtos em destaque">
+  <div class="titulo-destaques">
+    <div><h2>Destaques da semana</h2><p>Deslize para o lado e descubra outras peças.</p></div>
+    <div class="controles-destaque"><button type="button" id="destaque-anterior" aria-label="Destaque anterior">‹</button><button type="button" id="destaque-proximo" aria-label="Próximo destaque">›</button></div>
+  </div>
+  <div class="carrossel-destaques" id="carrossel-destaques"><div class="vazio">Carregando os destaques da Bela Modas…</div></div>
+  <div class="pontos-carrossel" id="pontos-carrossel" aria-label="Navegação dos destaques"></div>
+</section>
 <main>
+  <div class="categorias-visuais" aria-label="Categorias">
+    <button type="button" class="categoria-visual" data-categoria-visual="Feminino"><strong>Feminino</strong><span>Ver coleção ›</span></button>
+    <button type="button" class="categoria-visual" data-categoria-visual="Masculino"><strong>Masculino</strong><span>Ver coleção ›</span></button>
+    <button type="button" class="categoria-visual" data-categoria-visual="Infantil"><strong>Infantil</strong><span>Ver coleção ›</span></button>
+  </div>
   <div class="titulo-secao">
     <div>
       <h2>Explore a coleção</h2>
@@ -481,7 +447,8 @@ footer p {
 
 <footer>
   <strong>Bela Modas</strong>
-  <p>MODA, CARINHO E PERSONALIDADE.</p>
+  <p>✦ MODA, CARINHO E PERSONALIDADE ✦</p>
+  <button id="abrir-admin" type="button">⚙ CONFIGURAR CATÁLOGO · ADICIONAR PRODUTOS E FOTOS</button>
 </footer>
 
 <div class="modal-fundo" id="modal">
@@ -586,6 +553,67 @@ function normalizarProduto(p) {
     video: String(p.video_url || p.video || "")
   };
 }
+function gerarUrlDestaque(url) {
+  if (!url) return "";
+  try {
+    const endereco = new URL(url);
+    if (endereco.hostname === "drive.google.com") {
+      const id = endereco.searchParams.get("id");
+      if (id) return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w900";
+    }
+  } catch (_) {}
+  return url;
+}
+function renderDestaques() {
+  const faixa = document.getElementById("carrossel-destaques");
+  const pontos = document.getElementById("pontos-carrossel");
+  if (!faixa || !pontos) return;
+  const ativos = produtos.filter(p => p.ativo && (p.foto || p.fotos.length));
+  const destacados = ativos.filter(p => p.destaque);
+  const lista = (destacados.length ? destacados : ativos).slice(0, 6);
+  faixa.replaceChildren(); pontos.replaceChildren();
+  if (!lista.length) {
+    const vazio = document.createElement("div"); vazio.className = "vazio";
+    vazio.textContent = "Em breve, novidades em destaque por aqui."; faixa.appendChild(vazio); return;
+  }
+  lista.forEach((produto, i) => {
+    const card = document.createElement("article"); card.className = "card-destaque";
+    const foto = document.createElement("div"); foto.className = "foto-destaque";
+    const img = document.createElement("img"); img.src = gerarUrlDestaque(produto.foto || produto.fotos[0]);
+    img.alt = produto.nome; img.loading = i < 2 ? "eager" : "lazy"; img.decoding = "async";
+    if (i < 2) img.fetchPriority = "high";
+    foto.appendChild(img);
+    if (produto.destaque) { const selo = document.createElement("span"); selo.className = "selo-destaque"; selo.textContent = "✦ Em destaque"; foto.appendChild(selo); }
+    const info = document.createElement("div"); info.className = "info-destaque";
+    const textos = document.createElement("div");
+    const categoria = document.createElement("div"); categoria.className = "categoria-destaque"; categoria.textContent = produto.categoria || "Bela Modas";
+    const nome = document.createElement("div"); nome.className = "nome-destaque"; nome.textContent = produto.nome;
+    textos.append(categoria,nome);
+    const preco = document.createElement("div"); preco.className = "preco-destaque"; preco.textContent = produto.preco;
+    const ver = document.createElement("button"); ver.type = "button"; ver.className = "ver-destaque"; ver.textContent = "VER PRODUTO  ›"; ver.onclick = e => { e.stopPropagation(); abrirProduto(produto); };
+    info.append(textos,preco,ver); card.append(foto,info); card.addEventListener("click", e => { if (e.target !== ver) abrirProduto(produto); }); faixa.appendChild(card);
+    const ponto = document.createElement("button"); ponto.type = "button"; ponto.className = "ponto-carrossel" + (i===0 ? " ativo" : ""); ponto.setAttribute("aria-label", `Mostrar destaque ${i+1}`);
+    ponto.onclick = () => { faixa.scrollTo({left:card.offsetLeft-faixa.offsetLeft,behavior:"smooth"}); };
+    pontos.appendChild(ponto);
+  });
+}
+function moverDestaques(direcao) {
+  const faixa = document.getElementById("carrossel-destaques");
+  if (!faixa) return;
+  const card = faixa.querySelector(".card-destaque");
+  faixa.scrollBy({left:(card ? card.getBoundingClientRect().width + 15 : faixa.clientWidth * .8) * direcao,behavior:"smooth"});
+}
+document.getElementById("destaque-anterior").addEventListener("click", () => moverDestaques(-1));
+document.getElementById("destaque-proximo").addEventListener("click", () => moverDestaques(1));
+document.getElementById("carrossel-destaques").addEventListener("scroll", () => {
+  const faixa = document.getElementById("carrossel-destaques");
+  const cards = Array.from(faixa.querySelectorAll(".card-destaque"));
+  const centro = faixa.scrollLeft + faixa.clientWidth / 2;
+  let maisProximo = 0, distancia = Infinity;
+  cards.forEach((card,i) => { const d=Math.abs(card.offsetLeft + card.offsetWidth/2 - centro); if(d<distancia){distancia=d;maisProximo=i;} });
+  document.querySelectorAll(".ponto-carrossel").forEach((p,i)=>p.classList.toggle("ativo",i===maisProximo));
+}, {passive:true});
+
 function mostrarProdutos() {
   const termo = busca.value.toLocaleLowerCase("pt-BR").trim();
   const encontrados = produtos.filter(p =>
@@ -803,6 +831,7 @@ async function carregarProdutos() {
   produtos = dados.map(normalizarProduto);
   salvarCacheProdutos();
   mostrarProdutos();
+  renderDestaques();
 }
 function atualizarPainelAdmin() {
   const logado = BelaSync.estaLogado();
@@ -939,6 +968,12 @@ document.querySelectorAll(".categoria").forEach(botao => botao.addEventListener(
   document.querySelectorAll(".categoria").forEach(item => item.classList.toggle("ativa", item === botao));
   mostrarProdutos();
 }));
+document.querySelectorAll("[data-categoria-visual]").forEach(botao => botao.addEventListener("click", () => {
+  const categoria = botao.dataset.categoriaVisual;
+  const filtro = document.querySelector(`.categoria[data-categoria="${categoria}"]`);
+  if (filtro) filtro.click();
+  document.getElementById("produtos").scrollIntoView({behavior:"smooth",block:"start"});
+}));
 busca.addEventListener("input", mostrarProdutos);
 document.getElementById("fechar").addEventListener("click", () => modal.classList.remove("aberto"));
 modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("aberto"); });
@@ -947,12 +982,13 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") { modal.clas
 (function carregarCacheInicial() {
   try {
     const dados = JSON.parse(localStorage.getItem("bela_modas_produtos_v1") || "null");
-    if (Array.isArray(dados)) { produtos = dados.map(normalizarProduto); mostrarProdutos(); }
+    if (Array.isArray(dados)) { produtos = dados.map(normalizarProduto); mostrarProdutos(); renderDestaques(); }
   } catch (_) {}
 })();
 
 (async function iniciarCatalogo() {
   mostrarProdutos();
+  renderDestaques();
   if (!window.BelaSync) {
     console.error("sync.js não foi carregado.");
     return;
