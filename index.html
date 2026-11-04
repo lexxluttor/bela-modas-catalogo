@@ -16,7 +16,9 @@
   --suave: #897970;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -307,250 +309,48 @@ footer p {
 }
 
 .acao-header {
-  border: 1px solid #fff;
-  background: white;
-  color: var(--principal);
-  padding: 9px 12px;
-  cursor: pointer;
-  margin: 3px 0 0 5px;
-  font-size: 11px;
+  border: 1px solid #fff; background: white; color: var(--principal);
+  padding: 9px 12px; cursor: pointer; margin: 3px 0 0 5px; font-size: 11px;
 }
+.acao-header.discreto { background: transparent; color: white; border-color: rgba(255,255,255,.6); }
+.header-info .acao-header { background: var(--principal); color: white; border-color: var(--principal); }
+.header-info .acao-header.discreto { background: transparent; color: var(--principal); border-color: #D8C9C1; }
+.foto img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.galeria-produto { display:block; margin:12px 0; }
+.visualizador { position:relative; width:100%; height: min(58vh, 430px); min-height:240px; background:#eee5df; border-radius:9px; overflow:hidden; display:flex; align-items:center; justify-content:center; touch-action:pan-y; }
+.visualizador img { width:100%; height:100%; object-fit:contain; }
+.visualizador video { width:100%; height:100%; object-fit:contain; background:#171313; }
+.navegar-foto { position:absolute; top:50%; transform:translateY(-50%); border:0; border-radius:50%; width:38px; height:38px; background:rgba(255,255,255,.88); color:#302724; font-size:24px; cursor:pointer; z-index:2; }
+.navegar-foto.anterior { left:9px; } .navegar-foto.proxima { right:9px; }
+.contador-foto { text-align:center; color:var(--suave); font-size:11px; margin-top:8px; }
+.pontos-foto { display:flex; justify-content:center; gap:7px; margin-top:9px; }
+.ponto-foto { width:8px; height:8px; border:0; border-radius:50%; padding:0; background:#cdbbb2; cursor:pointer; }
+.ponto-foto.ativo { background:var(--principal); transform:scale(1.25); }
 
-.acao-header.discreto {
-  background: transparent;
-  color: white;
-  border-color: rgba(255,255,255,.6);
-}
+.foto .sem-foto { letter-spacing: 2px; font-size: 10px; text-align: center; padding: 12px; }
+.botoes-produto { display:flex; gap:7px; margin-top:10px; }
+.botoes-produto button, .botao-principal { border:0; background:var(--principal); color:white; padding:10px 12px; cursor:pointer; font-size:11px; }
+.botoes-produto button.secundario { background:transparent; color:var(--principal); border:1px solid #D8C9C1; }
+.painel-extra { display:none; position:fixed; inset:0; z-index:10; background:rgba(26,19,17,.65); padding:16px; align-items:center; justify-content:center; overflow:auto; }
+.painel-extra.aberto { display:flex; }
+.painel-conteudo { background:var(--fundo); width:min(620px,100%); max-height:95vh; overflow:auto; padding:24px; position:relative; }
+.painel-conteudo h3 { font:normal 26px Georgia,serif; margin:0 35px 16px 0; }
+.painel-conteudo label { display:block; font-size:12px; margin:12px 0 5px; }
+.painel-conteudo input, .painel-conteudo select, .painel-conteudo textarea { width:100%; padding:11px; border:1px solid #D8C9C1; background:white; font:inherit; }
+.linha-form { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.item-carrinho { padding:12px 0; border-bottom:1px solid #D8C9C1; display:flex; justify-content:space-between; gap:10px; font-size:13px; }
+#fotos-atuais { display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:10px; margin:10px 0; }
+.foto-admin { border:1px solid #D8C9C1; border-radius:8px; padding:8px; background:white; min-width:0; }
+.foto-admin img { width:100%; aspect-ratio:3/4; object-fit:cover; display:block; border-radius:5px; background:#eee; }
+.foto-admin label { display:flex; align-items:center; gap:6px; font-size:11px!important; line-height:1.3; margin:8px 0 0!important; }
+.foto-admin input { width:auto!important; padding:0!important; margin:0; }
+#progresso-salvamento { display:none; padding:10px 12px; margin:10px 0; background:#F0E6DF; color:#5D4C46; font-size:12px; line-height:1.5; border-radius:6px; }
+#progresso-salvamento.visivel { display:block; }
+.aviso-demo { font-size:12px; color:var(--suave); line-height:1.6; background:#F0E6DF; padding:12px; margin:12px 0; }
+[hidden] { display:none !important; }
+@media(max-width:520px) { header { align-items:flex-start; gap:12px; padding:20px 12px; } .logo { font-size:27px; } .header-info { display:block; text-align:right; font-size:9px; max-width:58%; } #abrir-admin { max-width:100%; white-space:normal; line-height:1.5; padding:12px 9px!important; font-size:11px!important; } .acao-header { padding:7px 8px; } .linha-form { grid-template-columns:1fr; } }
 
-.header-info .acao-header {
-  background: var(--principal);
-  color: white;
-  border-color: var(--principal);
-}
-
-.header-info .acao-header.discreto {
-  background: transparent;
-  color: var(--principal);
-  border-color: #D8C9C1;
-}
-
-.foto img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  inset: 0;
-}
-
-.galeria-produto {
-  display: block;
-  margin: 12px 0;
-}
-
-.visualizador {
-  position: relative;
-  width: 100%;
-  height: min(58vh, 430px);
-  min-height: 240px;
-  background: #eee5df;
-  border-radius: 9px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  touch-action: pan-y;
-}
-
-.visualizador img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.visualizador video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: #171313;
-}
-
-.navegar-foto {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 0;
-  border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  background: rgba(255,255,255,.88);
-  color: #302724;
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.navegar-foto.anterior { left: 9px; }
-.navegar-foto.proxima { right: 9px; }
-
-.contador-foto {
-  text-align: center;
-  color: var(--suave);
-  font-size: 11px;
-  margin-top: 8px;
-}
-
-.pontos-foto {
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-  margin-top: 9px;
-}
-
-.ponto-foto {
-  width: 8px;
-  height: 8px;
-  border: 0;
-  border-radius: 50%;
-  padding: 0;
-  background: #cdbbb2;
-  cursor: pointer;
-}
-
-.ponto-foto.ativo {
-  background: var(--principal);
-  transform: scale(1.25);
-}
-
-.foto .sem-foto {
-  letter-spacing: 2px;
-  font-size: 10px;
-  text-align: center;
-  padding: 12px;
-}
-
-.botoes-produto {
-  display: flex;
-  gap: 7px;
-  margin-top: 10px;
-}
-
-.botoes-produto button,
-.botao-principal {
-  border: 0;
-  background: var(--principal);
-  color: white;
-  padding: 10px 12px;
-  cursor: pointer;
-  font-size: 11px;
-}
-
-.botoes-produto button.secundario {
-  background: transparent;
-  color: var(--principal);
-  border: 1px solid #D8C9C1;
-}
-
-.painel-extra {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background: rgba(26,19,17,.65);
-  padding: 16px;
-  align-items: center;
-  justify-content: center;
-  overflow: auto;
-}
-
-.painel-extra.aberto {
-  display: flex;
-}
-
-.painel-conteudo {
-  background: var(--fundo);
-  width: min(620px,100%);
-  max-height: 95vh;
-  overflow: auto;
-  padding: 24px;
-  position: relative;
-}
-
-.painel-conteudo h3 {
-  font: normal 26px Georgia,serif;
-  margin: 0 35px 16px 0;
-}
-
-.painel-conteudo label {
-  display: block;
-  font-size: 12px;
-  margin: 12px 0 5px;
-}
-
-.painel-conteudo input,
-.painel-conteudo select,
-.painel-conteudo textarea {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #D8C9C1;
-  background: white;
-  font: inherit;
-}
-
-.linha-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.item-carrinho {
-  padding: 12px 0;
-  border-bottom: 1px solid #D8C9C1;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  font-size: 13px;
-}
-
-.aviso-demo {
-  font-size: 12px;
-  color: var(--suave);
-  line-height: 1.6;
-  background: #F0E6DF;
-  padding: 12px;
-  margin: 12px 0;
-}
-
-[hidden] { display: none !important; }
-
-@media(max-width:520px) {
-  header {
-    align-items: flex-start;
-    gap: 12px;
-    padding: 20px 12px;
-  }
-
-  .logo { font-size: 27px; }
-
-  .header-info {
-    display: block;
-    text-align: right;
-    font-size: 9px;
-    max-width: 58%;
-  }
-
-  #abrir-admin {
-    max-width: 100%;
-    white-space: normal;
-    line-height: 1.5;
-    padding: 12px 9px!important;
-    font-size: 11px!important;
-  }
-
-  .acao-header { padding: 7px 8px; }
-  .linha-form { grid-template-columns: 1fr; }
-}
-
-@media(max-width:800px) {
+@media(max-width: 800px) {
   .produtos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -562,9 +362,14 @@ footer p {
   }
 }
 
-@media(max-width:520px) {
-  header { padding: 22px 18px; }
-  .logo { font-size: 29px; }
+@media(max-width: 520px) {
+  header {
+    padding: 22px 18px;
+  }
+
+  .logo {
+    font-size: 29px;
+  }
 
   .header-info {
     display: block;
@@ -585,16 +390,26 @@ footer p {
     min-height: 220px;
   }
 
-  .selo { display: none; }
+  .selo {
+    display: none;
+  }
 
   .titulo-secao {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .busca { width: 100%; }
-  .nome { font-size: 16px; }
-  .produtos { gap: 20px 11px; }
+  .busca {
+    width: 100%;
+  }
+
+  .nome {
+    font-size: 16px;
+  }
+
+  .produtos {
+    gap: 20px 11px;
+  }
 }
 </style>
 </head>
@@ -614,15 +429,9 @@ footer p {
   <div class="header-info">
     CATÁLOGO VIRTUAL<br>
     MODA PARA TODOS OS MOMENTOS<br><br>
-    <button class="acao-header" id="abrir-carrinho">
-      Sacola (<span id="total-carrinho">0</span>)
-    </button>
+    <button class="acao-header" id="abrir-carrinho">Sacola (<span id="total-carrinho">0</span>)</button>
     <div style="margin-top:12px;text-align:right">
-      <button class="acao-header" id="abrir-admin" type="button"
-        style="background:#2f5d50!important;color:#fff!important;border:2px solid #2f5d50!important;font-weight:700;padding:14px 16px;border-radius:8px;font-size:13px;cursor:pointer;display:inline-block">
-        ⚙ CONFIGURAR CATÁLOGO<br>
-        ＋ ADICIONAR PRODUTOS E FOTOS
-      </button>
+      <button class="acao-header" id="abrir-admin" type="button" style="background:#2f5d50!important;color:#fff!important;border:2px solid #2f5d50!important;font-weight:700;padding:14px 16px;border-radius:8px;font-size:13px;cursor:pointer;display:inline-block">⚙ CONFIGURAR CATÁLOGO<br>＋ ADICIONAR PRODUTOS E FOTOS</button>
     </div>
   </div>
 </header>
@@ -637,6 +446,7 @@ footer p {
         e encontre peças para todos os momentos.
       </p>
     </div>
+
     <div class="selo">Bela</div>
   </div>
 </section>
@@ -650,8 +460,12 @@ footer p {
       </div>
     </div>
 
-    <input class="busca" id="busca" type="search"
-      placeholder="Buscar uma peça...">
+    <input
+      class="busca"
+      id="busca"
+      type="search"
+      placeholder="Buscar uma peça..."
+    >
   </div>
 
   <nav class="categorias">
@@ -676,125 +490,50 @@ footer p {
     <div class="tipo" id="modal-tipo"></div>
     <h3 id="modal-nome"></h3>
     <p id="modal-preco"></p>
-    <div id="modal-galeria" class="galeria-produto"></div>
-    <p>Consulte a disponibilidade da peça com nossa equipe.</p>
+    <div id="modal-galeria" class="galeria-produto"></div><p>Consulte a disponibilidade da peça com nossa equipe.</p>
   </div>
 </div>
 
-<div class="painel-extra" id="painel-carrinho">
-  <div class="painel-conteudo">
-    <button class="fechar" data-fechar="painel-carrinho">×</button>
-    <h3>Sua sacola</h3>
-    <div id="itens-carrinho"></div>
-    <p><strong>Total: <span id="valor-total">R$ 0,00</span></strong></p>
-
-    <label for="nome-cliente">Seu nome</label>
-    <input id="nome-cliente" placeholder="Como podemos te chamar?">
-
-    <label for="obs-pedido">Observações do pedido</label>
-    <textarea id="obs-pedido" rows="2"
-      placeholder="Tamanho, cor ou outras informações"></textarea>
-
-    <button class="botao-principal" id="enviar-whatsapp">
-      Enviar pedido pelo WhatsApp
-    </button>
-
-    <p class="aviso-demo">
-      O envio depende de configurar o número de WhatsApp da loja no código.
-    </p>
+<div class="painel-extra" id="painel-carrinho"><div class="painel-conteudo">
+  <button class="fechar" data-fechar="painel-carrinho">×</button><h3>Sua sacola</h3>
+  <div id="itens-carrinho"></div><p><strong>Total: <span id="valor-total">R$ 0,00</span></strong></p>
+  <label for="nome-cliente">Seu nome</label><input id="nome-cliente" placeholder="Como podemos te chamar?">
+  <label for="obs-pedido">Observações do pedido</label><textarea id="obs-pedido" rows="2" placeholder="Tamanho, cor ou outras informações"></textarea>
+  <button class="botao-principal" id="enviar-whatsapp">Enviar pedido pelo WhatsApp</button>
+  <p class="aviso-demo">O envio depende de configurar o número de WhatsApp da loja no código.</p>
+</div></div>
+<div class="painel-extra" id="painel-admin"><div class="painel-conteudo">
+  <button class="fechar" data-fechar="painel-admin">×</button><h3>Configurar catálogo</h3>
+  <div id="admin-login">
+    <p class="aviso-demo">Entre com a senha administrativa para carregar e gerenciar os produtos da loja.</p>
+    <form id="form-login">
+      <label for="admin-senha">Senha administrativa</label>
+      <input id="admin-senha" type="password" autocomplete="current-password" minlength="12" required>
+      <button class="botao-principal" type="submit">Entrar</button>
+    </form>
   </div>
-</div>
-
-<div class="painel-extra" id="painel-admin">
-  <div class="painel-conteudo">
-    <button class="fechar" data-fechar="painel-admin">×</button>
-    <h3>Configurar catálogo</h3>
-
-    <div id="admin-login">
-      <p class="aviso-demo">
-        Entre com a senha administrativa para carregar e gerenciar os produtos da loja.
-      </p>
-
-      <form id="form-login">
-        <label for="admin-senha">Senha administrativa</label>
-        <input id="admin-senha" type="password"
-          autocomplete="current-password" minlength="12" required>
-        <button class="botao-principal" type="submit">Entrar</button>
-      </form>
-    </div>
-
-    <div id="admin-conteudo" hidden>
-      <p class="aviso-demo">
-        Os produtos e as fotos são sincronizados com a planilha e o Drive.
-        As imagens enviadas para a vitrine ficam públicas para que as clientes possam visualizá-las.
-      </p>
-
-      <form id="form-produto">
-        <div class="linha-form">
-          <div>
-            <label for="admin-codigo">Referência</label>
-            <input id="admin-codigo" required placeholder="Ex.: BM005">
-          </div>
-          <div>
-            <label for="admin-categoria">Categoria</label>
-            <select id="admin-categoria">
-              <option>Feminino</option>
-              <option>Masculino</option>
-              <option>Infantil</option>
-              <option>Acessórios</option>
-            </select>
-          </div>
-        </div>
-
-        <label for="admin-nome">Nome do produto</label>
-        <input id="admin-nome" required placeholder="Nome da peça">
-
-        <div class="linha-form">
-          <div>
-            <label for="admin-preco">Preço (R$)</label>
-            <input id="admin-preco" type="number" min="0"
-              step="0.01" placeholder="49,90">
-          </div>
-          <div>
-            <label for="admin-tamanhos">Tamanhos disponíveis</label>
-            <input id="admin-tamanhos" placeholder="P, M, G ou 21/22">
-          </div>
-        </div>
-
-        <label for="admin-foto">Fotos do produto (selecione até 5)</label>
-        <input id="admin-foto" type="file" accept="image/*" multiple>
-        <small>
-          As fotos são otimizadas antes do envio para ajudar no carregamento.
-        </small>
-
-        <label for="admin-video">Vídeo do produto (opcional)</label>
-        <input id="admin-video" type="file" accept="video/*">
-        <small>
-          Vídeo opcional, recomendado até 8 MB. Só será carregado quando a cliente abrir o vídeo.
-        </small>
-
-        <button class="botao-principal" id="salvar-produto" type="submit">
-          ＋ Salvar produto na nuvem
-        </button>
-
-        <button class="acao-header" id="cancelar-edicao" type="button">
-          Limpar formulário
-        </button>
-      </form>
-
-      <hr>
-      <h3>Produtos cadastrados</h3>
-      <div id="lista-admin"></div>
-
-      <button class="acao-header" id="sair-admin" type="button">
-        Sair da administração
-      </button>
-    </div>
+  <div id="admin-conteudo" hidden>
+  <p class="aviso-demo">Os produtos e as fotos são sincronizados com a planilha e o Drive. As imagens enviadas para a vitrine ficam públicas para que as clientes possam visualizá-las.</p>
+  <form id="form-produto">
+    <div class="linha-form"><div><label for="admin-codigo">Referência</label><input id="admin-codigo" required placeholder="Ex.: BM005"></div><div><label for="admin-categoria">Categoria</label><select id="admin-categoria"><option>Feminino</option><option>Masculino</option><option>Infantil</option><option>Acessórios</option></select></div></div>
+    <label for="admin-nome">Nome do produto</label><input id="admin-nome" required placeholder="Nome da peça">
+    <label for="admin-descricao">Descrição</label><textarea id="admin-descricao" rows="3" placeholder="Detalhes, tecido, cor e outras informações"></textarea>
+    <div class="linha-form"><div><label for="admin-preco">Preço (R$)</label><input id="admin-preco" type="number" min="0" step="0.01" placeholder="49,90"></div><div><label for="admin-estoque">Estoque / quantidade</label><input id="admin-estoque" type="number" min="0" step="1" placeholder="Ex.: 5"></div></div>
+    <div class="linha-form"><div><label for="admin-tamanhos">Tamanhos disponíveis</label><input id="admin-tamanhos" placeholder="P, M, G ou 21/22"></div><div><label for="admin-disponibilidade">Disponibilidade</label><input id="admin-disponibilidade" placeholder="Disponível / Sob consulta"></div></div>
+    <div class="linha-form"><div><label><input id="admin-destaque" type="checkbox" style="width:auto"> Destacar na vitrine</label></div><div><label><input id="admin-ativo" type="checkbox" checked style="width:auto"> Produto ativo/publicado</label></div></div>
+    <label for="admin-foto">Adicionar fotos (até 5 no total)</label><input id="admin-foto" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>Na edição, as fotos atuais aparecem abaixo. Você pode manter, remover ou escolher a foto principal.</small>
+    <div id="fotos-atuais"></div>
+    <label><input id="admin-nova-capa" type="checkbox" style="width:auto"> Usar a primeira foto nova como foto principal</label>
+    <label for="admin-video">Adicionar ou substituir vídeo (opcional)</label><input id="admin-video" type="file" accept="video/mp4,video/webm"><div id="video-atual"></div><label><input id="admin-remover-video" type="checkbox" style="width:auto"> Remover o vídeo atual</label><small>Vídeo MP4 ou WebM de até 8 MB.</small>
+    <div id="progresso-salvamento" role="status" aria-live="polite"></div>
+    <button class="botao-principal" id="salvar-produto" type="submit">＋ Salvar produto na nuvem</button>
+    <button class="acao-header" id="cancelar-edicao" type="button">Limpar formulário</button>
+  </form><hr><h3>Produtos cadastrados</h3><div id="lista-admin"></div>
+  <button class="acao-header" id="sair-admin" type="button">Sair da administração</button>
   </div>
-</div>
+</div></div>
 
 <script src="sync.js"></script>
-
 <script>
 "use strict";
 
@@ -802,94 +541,59 @@ let produtos = [];
 let categoriaAtual = "Todos";
 let carrinho = [];
 let codigoEmEdicao = null;
-
-const CHAVE_CACHE_PRODUTOS = "bela_modas_produtos_v1";
+let fotosExistentesEdicao = [];
+let fotoPrincipalEdicao = "";
 
 const areaProdutos = document.getElementById("produtos");
 const busca = document.getElementById("busca");
 const modal = document.getElementById("modal");
-
-const numeroWhatsAppLoja = ""; 
-// Preencha com DDI + DDD + número, somente dígitos.
+const numeroWhatsAppLoja = ""; // Preencha com DDI + DDD + número, somente dígitos.
 
 function moeda(valor) {
-  return Number(valor || 0).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  });
+  return Number(valor || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
-
-/* Converte os links do Drive em miniaturas menores. */
 function gerarUrlMiniatura(url) {
   if (!url) return "";
-
   try {
     const endereco = new URL(url);
-
     if (endereco.hostname === "drive.google.com") {
       const id = endereco.searchParams.get("id");
-
-      if (id) {
-        return "https://drive.google.com/thumbnail?id=" +
-          encodeURIComponent(id) + "&sz=w420";
-      }
+      if (id) return "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w420";
     }
-  } catch (e) {}
-
+  } catch (_) {}
   return url;
 }
-
 function normalizarProduto(p) {
   const fotos = Array.isArray(p.fotos)
     ? p.fotos
-    : [
-        p.foto_principal || p.foto || "",
-        ...(String(p.fotos_adicionais || "").split("|").filter(Boolean))
-      ].filter(Boolean);
-
+    : [p.foto_principal, ...(String(p.fotos_adicionais || "").split("|").filter(Boolean))].filter(Boolean);
   const precoValor = Number(p.preco_valor ?? p.preco ?? 0) || 0;
-
   return {
     codigo: String(p.codigo || ""),
     nome: String(p.nome || ""),
     categoria: String(p.categoria || ""),
     descricao: String(p.descricao || ""),
     precoValor,
-
-    preco: p.preco
-      ? (typeof p.preco === "number" ? moeda(p.preco) : String(p.preco))
-      : (precoValor ? moeda(precoValor) : "Consulte o preço"),
-
+    preco: p.preco ? (typeof p.preco === "number" ? moeda(p.preco) : String(p.preco)) : (precoValor ? moeda(precoValor) : "Consulte o preço"),
     estoque: Number(p.estoque || 0),
     disponibilidade: String(p.disponibilidade || "Consulte disponibilidade"),
     destaque: p.destaque === true || p.destaque === "true",
     ativo: p.ativo !== false && p.ativo !== "false",
-
-    foto: String(p.foto_principal || p.foto || fotos[0] || ""),
+    foto: String(p.foto_principal || fotos[0] || ""),
     fotos,
-
-    // Miniaturas são geradas a partir dos links das fotos do Drive.
     miniaturas: fotos.map(gerarUrlMiniatura),
-
     tamanhos: String(p.tamanhos || ""),
     video: String(p.video_url || p.video || "")
   };
 }
-
 function mostrarProdutos() {
   const termo = busca.value.toLocaleLowerCase("pt-BR").trim();
-
   const encontrados = produtos.filter(p =>
     p.ativo &&
     (categoriaAtual === "Todos" || p.categoria === categoriaAtual) &&
-    (
-      p.nome.toLocaleLowerCase("pt-BR").includes(termo) ||
-      p.codigo.toLocaleLowerCase("pt-BR").includes(termo)
-    )
+    (p.nome.toLocaleLowerCase("pt-BR").includes(termo) || p.codigo.toLocaleLowerCase("pt-BR").includes(termo))
   );
-
   areaProdutos.replaceChildren();
-
   if (!encontrados.length) {
     const vazio = document.createElement("div");
     vazio.className = "vazio";
@@ -897,726 +601,366 @@ function mostrarProdutos() {
     areaProdutos.appendChild(vazio);
     return;
   }
-
   encontrados.forEach((produto, indice) => {
     const card = document.createElement("article");
     card.className = "produto";
-
     const foto = document.createElement("div");
     foto.className = "foto";
-
-    const capa = produto.miniaturas[0] || produto.foto;
-
+    const capa = produto.miniaturas[0] || produto.foto || produto.fotos[0];
     if (capa) {
       const img = document.createElement("img");
-
-      img.src = capa;
-      img.alt = produto.nome;
-      img.loading = indice < 2 ? "eager" : "lazy";
-      img.decoding = "async";
-
-      if (indice < 2) {
-        img.fetchPriority = "high";
-      }
-
+      img.src = gerarUrlMiniatura(capa); img.alt = produto.nome; img.loading = indice < 2 ? "eager" : "lazy"; img.decoding = "async";
+      if (indice < 2) img.fetchPriority = "high";
       foto.appendChild(img);
     } else {
       const texto = document.createElement("span");
-      texto.className = "sem-foto";
-      texto.textContent = "FOTO DO PRODUTO";
-      foto.appendChild(texto);
+      texto.className = "sem-foto"; texto.textContent = "FOTO DO PRODUTO"; foto.appendChild(texto);
     }
-
     if (produto.destaque) {
-      const tag = document.createElement("span");
-      tag.className = "tag";
-      tag.textContent = "Destaque";
-      foto.appendChild(tag);
+      const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = "Destaque"; foto.appendChild(tag);
     }
-
-    const info = document.createElement("div");
-    info.className = "informacoes";
-
-    const tipo = document.createElement("div");
-    tipo.className = "tipo";
-    tipo.textContent = produto.categoria;
-
-    const nome = document.createElement("div");
-    nome.className = "nome";
-    nome.textContent = produto.nome;
-
-    const preco = document.createElement("div");
-    preco.className = "preco";
-    preco.textContent = produto.preco;
-
-    const disponibilidade = document.createElement("div");
-    disponibilidade.className = "disponibilidade";
-    disponibilidade.textContent =
-      produto.disponibilidade || "Consulte disponibilidade";
-
-    const botoes = document.createElement("div");
-    botoes.className = "botoes-produto";
-
-    const detalhe = document.createElement("button");
-    detalhe.className = "secundario";
-    detalhe.textContent = "Ver detalhes";
-
-    detalhe.onclick = e => {
-      e.stopPropagation();
-      abrirProduto(produto);
-    };
-
-    const adicionar = document.createElement("button");
-    adicionar.textContent = "Adicionar";
-
-    adicionar.onclick = e => {
-      e.stopPropagation();
-      adicionarAoCarrinho(produto.codigo);
-    };
-
-    botoes.append(detalhe, adicionar);
-
-    info.append(tipo, nome, preco, disponibilidade, botoes);
-    card.append(foto, info);
-
-    card.addEventListener("click", () => abrirProduto(produto));
-
+    const info = document.createElement("div"); info.className = "informacoes";
+    const tipo = document.createElement("div"); tipo.className = "tipo"; tipo.textContent = produto.categoria;
+    const nome = document.createElement("div"); nome.className = "nome"; nome.textContent = produto.nome;
+    const preco = document.createElement("div"); preco.className = "preco"; preco.textContent = produto.preco;
+    const disponibilidade = document.createElement("div"); disponibilidade.className = "disponibilidade";
+    disponibilidade.textContent = produto.disponibilidade || "Consulte disponibilidade";
+    const botoes = document.createElement("div"); botoes.className = "botoes-produto";
+    const detalhe = document.createElement("button"); detalhe.className = "secundario"; detalhe.textContent = "Ver detalhes";
+    detalhe.onclick = e => { e.stopPropagation(); abrirProduto(produto); };
+    const adicionar = document.createElement("button"); adicionar.textContent = "Adicionar";
+    adicionar.onclick = e => { e.stopPropagation(); adicionarAoCarrinho(produto.codigo); };
+    botoes.append(detalhe, adicionar); info.append(tipo, nome, preco, disponibilidade, botoes);
+    card.append(foto, info); card.addEventListener("click", () => abrirProduto(produto));
     areaProdutos.appendChild(card);
   });
 }
-
 function abrirProduto(produto) {
   document.getElementById("modal-tipo").textContent = produto.categoria;
   document.getElementById("modal-nome").textContent = produto.nome;
-
-  document.getElementById("modal-preco").textContent =
-    produto.preco +
+  document.getElementById("modal-preco").textContent = produto.preco +
     (produto.tamanhos ? " · Tamanhos: " + produto.tamanhos : "");
-
   const galeria = document.getElementById("modal-galeria");
   galeria.replaceChildren();
-
-  const fotos = produto.fotos.length
-    ? produto.fotos
-    : (produto.foto ? [produto.foto] : []);
-
+  const fotos = produto.fotos.length ? produto.fotos : (produto.foto ? [produto.foto] : []);
   const midias = fotos.map(src => ({ tipo: "foto", src }));
-
-  if (produto.video) {
-    midias.push({ tipo: "video", src: produto.video });
-  }
-
+  if (produto.video) midias.push({ tipo: "video", src: produto.video });
   let indice = 0;
-
-  const quadro = document.createElement("div");
-  quadro.className = "visualizador";
-
-  const contador = document.createElement("div");
-  contador.className = "contador-foto";
-
-  const pontos = document.createElement("div");
-  pontos.className = "pontos-foto";
-
-  const anterior = document.createElement("button");
-  anterior.className = "navegar-foto anterior";
-  anterior.type = "button";
-  anterior.textContent = "‹";
-  anterior.setAttribute("aria-label", "Mídia anterior");
-
-  const proxima = document.createElement("button");
-  proxima.className = "navegar-foto proxima";
-  proxima.type = "button";
-  proxima.textContent = "›";
-  proxima.setAttribute("aria-label", "Próxima mídia");
-
+  const quadro = document.createElement("div"); quadro.className = "visualizador";
+  const contador = document.createElement("div"); contador.className = "contador-foto";
+  const pontos = document.createElement("div"); pontos.className = "pontos-foto";
+  const anterior = document.createElement("button"); anterior.className = "navegar-foto anterior"; anterior.type = "button"; anterior.textContent = "‹"; anterior.setAttribute("aria-label", "Mídia anterior");
+  const proxima = document.createElement("button"); proxima.className = "navegar-foto proxima"; proxima.type = "button"; proxima.textContent = "›"; proxima.setAttribute("aria-label", "Próxima mídia");
   function mostrarMidia() {
     quadro.replaceChildren();
-
     const item = midias[indice];
-
     if (item) {
       if (item.tipo === "foto") {
-        const img = document.createElement("img");
-
-        img.alt = produto.nome + " — foto " + (indice + 1);
-        img.loading = "eager";
-        img.decoding = "async";
-        img.src = item.src;
-
-        quadro.appendChild(img);
+        const img = document.createElement("img"); img.alt = produto.nome + " — foto " + (indice + 1);
+        img.loading = "eager"; img.decoding = "async"; img.src = item.src; quadro.appendChild(img);
       } else {
-        const video = document.createElement("video");
-
-        video.src = item.src;
-        video.controls = true;
-        video.playsInline = true;
-        video.preload = "metadata";
-
-        quadro.appendChild(video);
+        const video = document.createElement("video"); video.src = item.src; video.controls = true;
+        video.playsInline = true; video.preload = "metadata"; quadro.appendChild(video);
       }
     }
-
-    contador.textContent = item?.tipo === "video"
-      ? "Vídeo"
-      : `Foto ${indice + 1} de ${fotos.length}`;
-
+    contador.textContent = item?.tipo === "video" ? "Vídeo" : `Foto ${indice + 1} de ${fotos.length}`;
     anterior.style.display = midias.length > 1 ? "block" : "none";
     proxima.style.display = midias.length > 1 ? "block" : "none";
-
     pontos.replaceChildren();
-
     midias.forEach((m, i) => {
-      const b = document.createElement("button");
-
-      b.type = "button";
+      const b = document.createElement("button"); b.type = "button";
       b.className = "ponto-foto" + (i === indice ? " ativo" : "");
-
-      b.setAttribute(
-        "aria-label",
-        m.tipo === "video" ? "Ver vídeo" : "Ver foto " + (i + 1)
-      );
-
-      b.onclick = () => {
-        indice = i;
-        mostrarMidia();
-      };
-
-      pontos.appendChild(b);
+      b.setAttribute("aria-label", m.tipo === "video" ? "Ver vídeo" : "Ver foto " + (i + 1));
+      b.onclick = () => { indice = i; mostrarMidia(); }; pontos.appendChild(b);
     });
-
     pontos.style.display = midias.length <= 1 ? "none" : "flex";
   }
-
-  anterior.onclick = () => {
-    indice = (indice - 1 + midias.length) % midias.length;
-    mostrarMidia();
-  };
-
-  proxima.onclick = () => {
-    indice = (indice + 1) % midias.length;
-    mostrarMidia();
-  };
-
+  anterior.onclick = () => { indice = (indice - 1 + midias.length) % midias.length; mostrarMidia(); };
+  proxima.onclick = () => { indice = (indice + 1) % midias.length; mostrarMidia(); };
   let toqueInicial = 0;
-
-  quadro.addEventListener("touchstart", e => {
-    toqueInicial = e.changedTouches[0].clientX;
-  }, { passive: true });
-
+  quadro.addEventListener("touchstart", e => { toqueInicial = e.changedTouches[0].clientX; }, { passive: true });
   quadro.addEventListener("touchend", e => {
     const delta = e.changedTouches[0].clientX - toqueInicial;
-
     if (Math.abs(delta) > 45 && midias.length > 1) {
-      indice = (
-        indice + (delta < 0 ? 1 : -1) + midias.length
-      ) % midias.length;
-
-      mostrarMidia();
+      indice = (indice + (delta < 0 ? 1 : -1) + midias.length) % midias.length; mostrarMidia();
     }
   }, { passive: true });
-
-  quadro.append(anterior, proxima);
-  galeria.append(quadro, contador, pontos);
-
-  mostrarMidia();
+  quadro.append(anterior, proxima); galeria.append(quadro, contador, pontos); mostrarMidia();
   modal.classList.add("aberto");
 }
-
 function adicionarAoCarrinho(codigo) {
-  const p = produtos.find(x => x.codigo === codigo);
-  if (!p) return;
-
+  const p = produtos.find(x => x.codigo === codigo); if (!p) return;
   const existente = carrinho.find(x => x.codigo === codigo);
-
-  if (existente) {
-    existente.quantidade++;
-  } else {
-    carrinho.push({ codigo, quantidade: 1 });
-  }
-
-  atualizarCarrinho();
-  alert("Produto adicionado à sacola!");
+  if (existente) existente.quantidade++; else carrinho.push({ codigo, quantidade: 1 });
+  atualizarCarrinho(); alert("Produto adicionado à sacola!");
 }
-
 function atualizarCarrinho() {
-  document.getElementById("total-carrinho").textContent =
-    carrinho.reduce((s, x) => s + x.quantidade, 0);
-
-  const area = document.getElementById("itens-carrinho");
-  area.replaceChildren();
-
-  let total = 0;
-
+  document.getElementById("total-carrinho").textContent = carrinho.reduce((s, x) => s + x.quantidade, 0);
+  const area = document.getElementById("itens-carrinho"); area.replaceChildren(); let total = 0;
   carrinho.forEach(item => {
-    const p = produtos.find(x => x.codigo === item.codigo);
-    if (!p) return;
-
+    const p = produtos.find(x => x.codigo === item.codigo); if (!p) return;
     total += Number(p.precoValor || 0) * item.quantidade;
-
-    const linha = document.createElement("div");
-    linha.className = "item-carrinho";
-
-    const texto = document.createElement("span");
-    texto.textContent =
-      `${p.nome} × ${item.quantidade} — ${p.preco}`;
-
-    const remover = document.createElement("button");
-    remover.type = "button";
-    remover.textContent = "−";
-
-    remover.onclick = () => {
-      item.quantidade--;
-
-      if (item.quantidade <= 0) {
-        carrinho = carrinho.filter(x => x.codigo !== item.codigo);
-      }
-
-      atualizarCarrinho();
-    };
-
-    linha.append(texto, remover);
-    area.appendChild(linha);
+    const linha = document.createElement("div"); linha.className = "item-carrinho";
+    const texto = document.createElement("span"); texto.textContent = `${p.nome} × ${item.quantidade} — ${p.preco}`;
+    const remover = document.createElement("button"); remover.type = "button"; remover.textContent = "−";
+    remover.onclick = () => { item.quantidade--; if (item.quantidade <= 0) carrinho = carrinho.filter(x => x.codigo !== item.codigo); atualizarCarrinho(); };
+    linha.append(texto, remover); area.appendChild(linha);
   });
-
   document.getElementById("valor-total").textContent = moeda(total);
 }
-
 function abrirPainel(id) {
   document.getElementById(id).classList.add("aberto");
-
   if (id === "painel-carrinho") atualizarCarrinho();
   if (id === "painel-admin") atualizarPainelAdmin();
 }
-
-document.getElementById("abrir-carrinho").onclick =
-  () => abrirPainel("painel-carrinho");
-
-document.getElementById("abrir-admin").onclick =
-  () => abrirPainel("painel-admin");
-
-document.querySelectorAll("[data-fechar]").forEach(b => {
-  b.onclick = () =>
-    document.getElementById(b.dataset.fechar).classList.remove("aberto");
-});
+document.getElementById("abrir-carrinho").onclick = () => abrirPainel("painel-carrinho");
+document.getElementById("abrir-admin").onclick = () => abrirPainel("painel-admin");
+document.querySelectorAll("[data-fechar]").forEach(b => b.onclick = () => document.getElementById(b.dataset.fechar).classList.remove("aberto"));
 
 function renderListaAdmin() {
-  const area = document.getElementById("lista-admin");
-  area.replaceChildren();
-
+  const area = document.getElementById("lista-admin"); area.replaceChildren();
   produtos.forEach(p => {
-    const linha = document.createElement("div");
-    linha.className = "item-carrinho";
-
-    const nome = document.createElement("span");
-    nome.textContent = `${p.codigo} — ${p.nome}`;
-
-    const editar = document.createElement("button");
-    editar.type = "button";
-    editar.textContent = "Editar";
+    const linha = document.createElement("div"); linha.className = "item-carrinho";
+    const nome = document.createElement("span"); nome.textContent = `${p.codigo} — ${p.nome}${p.ativo ? "" : " (inativo)"}`;
+    const editar = document.createElement("button"); editar.type = "button"; editar.textContent = "Editar";
     editar.onclick = () => preencherFormulario(p);
-
-    const apagar = document.createElement("button");
-    apagar.type = "button";
-    apagar.textContent = "Excluir";
-
+    const apagar = document.createElement("button"); apagar.type = "button"; apagar.textContent = "Excluir";
     apagar.onclick = async () => {
       if (!confirm(`Excluir ${p.nome} (${p.codigo}) da loja?`)) return;
-
-      try {
-        await BelaSync.excluirProduto(p.codigo);
-
-        produtos = produtos.filter(x => x.codigo !== p.codigo);
-
-        salvarCacheProdutos();
-        mostrarProdutos();
-        renderListaAdmin();
-
-      } catch (err) {
-        alert(err.message || "Não foi possível excluir o produto.");
-      }
+      try { await BelaSync.excluirProduto(p.codigo); produtos = produtos.filter(x => x.codigo !== p.codigo); salvarCacheProdutos(); mostrarProdutos(); renderListaAdmin(); }
+      catch (err) { alert(err.message || "Não foi possível excluir o produto."); }
     };
-
-    linha.append(nome, editar, apagar);
-    area.appendChild(linha);
+    linha.append(nome, editar, apagar); area.appendChild(linha);
   });
 }
-
+function renderFotosExistentes() {
+  const area = document.getElementById("fotos-atuais"); area.replaceChildren();
+  if (!codigoEmEdicao || !fotosExistentesEdicao.length) {
+    area.textContent = codigoEmEdicao ? "Este produto não tem fotos cadastradas." : "";
+    return;
+  }
+  fotosExistentesEdicao.forEach((url, indice) => {
+    const cartao = document.createElement("div"); cartao.className = "foto-admin";
+    const img = document.createElement("img"); img.src = gerarUrlMiniatura(url); img.alt = `Foto ${indice + 1}`; img.loading = "lazy"; img.decoding = "async";
+    const manterLabel = document.createElement("label");
+    const manter = document.createElement("input"); manter.type = "checkbox"; manter.checked = true; manter.dataset.url = url; manter.className = "manter-foto";
+    manterLabel.append(manter, document.createTextNode(" Manter foto"));
+    const capaLabel = document.createElement("label");
+    const capa = document.createElement("input"); capa.type = "radio"; capa.name = "foto-principal-existente"; capa.value = url; capa.checked = url === fotoPrincipalEdicao; capa.className = "escolher-capa";
+    capa.addEventListener("change", () => { fotoPrincipalEdicao = capa.value; document.getElementById("admin-nova-capa").checked = false; });
+    capaLabel.append(capa, document.createTextNode(" Foto principal"));
+    manter.addEventListener("change", () => {
+      if (!manter.checked && fotoPrincipalEdicao === url) {
+        fotoPrincipalEdicao = fotosExistentesEdicao.find(x => x !== url && Array.from(area.querySelectorAll(".manter-foto")).some(c => c.checked && c.dataset.url === x)) || "";
+        const radio = Array.from(area.querySelectorAll(".escolher-capa")).find(r => r.value === url); if (radio) radio.checked = false;
+      }
+    });
+    cartao.append(img, manterLabel, capaLabel); area.appendChild(cartao);
+  });
+}
 function preencherFormulario(p) {
   codigoEmEdicao = p.codigo;
-
+  fotosExistentesEdicao = [...(p.fotos || [])];
+  fotoPrincipalEdicao = p.foto || fotosExistentesEdicao[0] || "";
   document.getElementById("admin-codigo").value = p.codigo;
   document.getElementById("admin-codigo").readOnly = true;
   document.getElementById("admin-nome").value = p.nome;
   document.getElementById("admin-categoria").value = p.categoria;
+  document.getElementById("admin-descricao").value = p.descricao || "";
   document.getElementById("admin-preco").value = p.precoValor || "";
+  document.getElementById("admin-estoque").value = p.estoque ?? 0;
   document.getElementById("admin-tamanhos").value = p.tamanhos || "";
+  document.getElementById("admin-disponibilidade").value = p.disponibilidade || "Consulte disponibilidade";
+  document.getElementById("admin-destaque").checked = Boolean(p.destaque);
+  document.getElementById("admin-ativo").checked = Boolean(p.ativo);
   document.getElementById("admin-foto").value = "";
   document.getElementById("admin-video").value = "";
-
-  document.getElementById("salvar-produto").textContent =
-    "Salvar alterações";
+  document.getElementById("admin-nova-capa").checked = false;
+  document.getElementById("admin-remover-video").checked = false;
+  const videoArea = document.getElementById("video-atual"); videoArea.replaceChildren();
+  if (p.video) { const link = document.createElement("a"); link.href = p.video; link.target = "_blank"; link.rel = "noopener"; link.textContent = "Ver vídeo atual"; videoArea.appendChild(link); }
+  renderFotosExistentes();
+  document.getElementById("salvar-produto").textContent = "Salvar alterações";
+  document.getElementById("form-produto").scrollIntoView({behavior:"smooth",block:"start"});
 }
-
 function limparFormulario() {
-  codigoEmEdicao = null;
-
+  codigoEmEdicao = null; fotosExistentesEdicao = []; fotoPrincipalEdicao = "";
   document.getElementById("form-produto").reset();
   document.getElementById("admin-codigo").readOnly = false;
-
-  document.getElementById("salvar-produto").textContent =
-    "＋ Salvar produto na nuvem";
+  document.getElementById("fotos-atuais").replaceChildren();
+  document.getElementById("video-atual").replaceChildren();
+  const progresso = document.getElementById("progresso-salvamento"); progresso.textContent = ""; progresso.classList.remove("visivel");
+  document.getElementById("salvar-produto").textContent = "＋ Salvar produto na nuvem";
 }
-
-/* Guarda os dados dos produtos no navegador. */
+function mostrarProgresso(mensagem) {
+  const area = document.getElementById("progresso-salvamento"); area.textContent = mensagem; area.classList.add("visivel");
+}
 function salvarCacheProdutos() {
-  try {
-    localStorage.setItem(
-      CHAVE_CACHE_PRODUTOS,
-      JSON.stringify(produtos)
-    );
-  } catch (e) {
-    console.warn("Não foi possível atualizar o cache dos produtos.");
-  }
+  try { localStorage.setItem("bela_modas_produtos_v1", JSON.stringify(produtos)); } catch (_) {}
 }
-
-/* Mostra os produtos guardados enquanto a planilha é consultada. */
-function carregarCacheProdutos() {
-  try {
-    const salvo = localStorage.getItem(CHAVE_CACHE_PRODUTOS);
-
-    if (!salvo) return false;
-
-    const dados = JSON.parse(salvo);
-
-    if (!Array.isArray(dados)) return false;
-
-    produtos = dados
-      .map(normalizarProduto)
-      .filter(p => p.ativo);
-
-    mostrarProdutos();
-
-    return true;
-
-  } catch (e) {
-    console.warn("Cache de produtos indisponível.");
-    return false;
-  }
-}
-
 async function carregarProdutos() {
   const dados = await BelaSync.buscarProdutos();
-
-  produtos = dados
-    .map(normalizarProduto)
-    .filter(p => p.ativo);
-
+  produtos = dados.map(normalizarProduto);
   salvarCacheProdutos();
   mostrarProdutos();
 }
-
 function atualizarPainelAdmin() {
   const logado = BelaSync.estaLogado();
-
   document.getElementById("admin-login").hidden = logado;
   document.getElementById("admin-conteudo").hidden = !logado;
-
   if (logado) renderListaAdmin();
 }
-
 document.getElementById("form-login").addEventListener("submit", async e => {
   e.preventDefault();
-
-  const botao = e.submitter ||
-    e.target.querySelector("button[type=submit]");
-
+  const botao = e.submitter || e.target.querySelector("button[type=submit]");
   botao.disabled = true;
-
   try {
-    await BelaSync.entrar(
-      document.getElementById("admin-senha").value
-    );
-
+    await BelaSync.entrar(document.getElementById("admin-senha").value);
     document.getElementById("admin-senha").value = "";
-
-    await carregarProdutos();
-    atualizarPainelAdmin();
-
-  } catch (err) {
-    alert(err.message || "Falha ao entrar.");
-  } finally {
-    botao.disabled = false;
-  }
+    await carregarProdutos(); atualizarPainelAdmin();
+  } catch (err) { alert(err.message || "Falha ao entrar."); }
+  finally { botao.disabled = false; }
 });
-
-document.getElementById("sair-admin").onclick = () => {
-  BelaSync.sair();
-  atualizarPainelAdmin();
-};
-
+document.getElementById("sair-admin").onclick = () => { BelaSync.sair(); atualizarPainelAdmin(); };
 document.getElementById("cancelar-edicao").onclick = limparFormulario;
+document.getElementById("admin-foto").addEventListener("change", () => {
+  const novas = document.getElementById("admin-foto").files.length;
+  const mantidas = document.querySelectorAll("#fotos-atuais .manter-foto:checked").length;
+  if (novas + mantidas > 5) alert(`Você selecionou ${novas} foto(s) novas e manteve ${mantidas}. O limite é 5 fotos no total.`);
+});
 
 function comprimirImagem(arquivo) {
   return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(arquivo);
-    const img = new Image();
-
+    const url = URL.createObjectURL(arquivo); const img = new Image();
     img.onload = () => {
       try {
         const gerar = (limite, qualidade) => {
-          const escala = Math.min(
-            1,
-            limite / Math.max(img.width, img.height)
-          );
-
+          const escala = Math.min(1, limite / Math.max(img.width, img.height));
           const canvas = document.createElement("canvas");
-
           canvas.width = Math.max(1, Math.round(img.width * escala));
           canvas.height = Math.max(1, Math.round(img.height * escala));
-
-          canvas.getContext("2d").drawImage(
-            img, 0, 0, canvas.width, canvas.height
-          );
-
+          canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
           return canvas.toDataURL("image/webp", qualidade);
         };
-
-        resolve({
-          completa: gerar(1200, .78),
-          miniatura: gerar(420, .70)
-        });
-
-      } catch (err) {
-        reject(err);
-      } finally {
-        URL.revokeObjectURL(url);
-      }
+        resolve({ completa: gerar(1200, .78) });
+      } catch (err) { reject(err); }
+      finally { URL.revokeObjectURL(url); }
     };
-
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Não foi possível ler uma das fotos."));
-    };
-
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Não foi possível ler uma das fotos.")); };
     img.src = url;
   });
 }
-
 function dataUrlParaArquivo(dataUrl, nome) {
   const partes = dataUrl.split(",");
-
-  const tipo =
-    (partes[0].match(/data:(.*?);base64/) || [])[1] || "image/webp";
-
-  const binario = atob(partes[1]);
-  const bytes = new Uint8Array(binario.length);
-
-  for (let i = 0; i < binario.length; i++) {
-    bytes[i] = binario.charCodeAt(i);
-  }
-
+  const tipo = (partes[0].match(/data:(.*?);base64/) || [])[1] || "image/webp";
+  const binario = atob(partes[1]); const bytes = new Uint8Array(binario.length);
+  for (let i = 0; i < binario.length; i++) bytes[i] = binario.charCodeAt(i);
   return new File([bytes], nome, { type: tipo });
 }
-
 document.getElementById("form-produto").addEventListener("submit", async e => {
   e.preventDefault();
-
-  const botao = document.getElementById("salvar-produto");
-  botao.disabled = true;
-
+  const botao = document.getElementById("salvar-produto"); botao.disabled = true;
+  const progresso = document.getElementById("progresso-salvamento"); progresso.classList.add("visivel");
   try {
     const codigo = document.getElementById("admin-codigo").value.trim();
     const nome = document.getElementById("admin-nome").value.trim();
+    const existente = produtos.find(p => p.codigo.toLowerCase() === codigo.toLowerCase());
+    if (!codigo || !nome) throw new Error("Preencha a referência e o nome.");
+    if (!codigoEmEdicao && existente) throw new Error("Essa referência já existe.");
+    const arquivos = Array.from(document.getElementById("admin-foto").files);
+    const manter = Array.from(document.querySelectorAll("#fotos-atuais .manter-foto:checked")).map(x => x.dataset.url);
+    if (manter.length + arquivos.length > 5) throw new Error(`O produto pode ter até 5 fotos. Você manteve ${manter.length} e selecionou ${arquivos.length} novas.`);
+    const videoArquivo = document.getElementById("admin-video").files[0];
+    if (videoArquivo && (videoArquivo.size > 8 * 1024 * 1024 || !["video/mp4", "video/webm"].includes(videoArquivo.type))) throw new Error("Use um vídeo MP4 ou WebM de até 8 MB.");
 
-    const existente = produtos.find(
-      p => p.codigo.toLowerCase() === codigo.toLowerCase()
-    );
-
-    if (!codigo || !nome) {
-      throw new Error("Preencha a referência e o nome.");
+    let urlsNovas = [];
+    if (arquivos.length) {
+      mostrarProgresso(`Preparando ${arquivos.length} foto(s)…`);
+      const imagens = await Promise.all(arquivos.map(comprimirImagem));
+      mostrarProgresso(`Enviando ${arquivos.length} foto(s) para o Drive…`);
+      const resultados = new Array(imagens.length); let proxima = 0;
+      async function trabalhador() {
+        while (true) {
+          const i = proxima++; if (i >= imagens.length) return;
+          const arquivo = dataUrlParaArquivo(imagens[i].completa, `${codigo}-${Date.now()}-${i + 1}.webp`);
+          const resposta = await BelaSync.enviarFoto(codigo, arquivo);
+          resultados[i] = resposta.url;
+          mostrarProgresso(`Fotos enviadas: ${resultados.filter(Boolean).length} de ${imagens.length}…`);
+        }
+      }
+      await Promise.all(Array.from({length: Math.min(3, imagens.length)}, () => trabalhador()));
+      urlsNovas = resultados;
     }
-
-    if (!codigoEmEdicao && existente) {
-      throw new Error("Essa referência já existe.");
-    }
-
-    const arquivos = Array.from(
-      document.getElementById("admin-foto").files
-    );
-
-    if (arquivos.length > 5) {
-      throw new Error("Selecione no máximo 5 fotos por produto.");
-    }
-
-    const videoArquivo =
-      document.getElementById("admin-video").files[0];
-
-    if (videoArquivo &&
-        (videoArquivo.size > 8 * 1024 * 1024 ||
-         !["video/mp4", "video/webm"].includes(videoArquivo.type))) {
-      throw new Error("Use um vídeo MP4 ou WebM de até 8 MB.");
-    }
-
-    const imagens = await Promise.all(arquivos.map(comprimirImagem));
-    const urls = [];
-
-    for (let i = 0; i < imagens.length; i++) {
-      const arquivo = dataUrlParaArquivo(
-        imagens[i].completa,
-        `${codigo}-${i + 1}.webp`
-      );
-
-      const resposta = await BelaSync.enviarFoto(codigo, arquivo);
-      urls.push(resposta.url);
-    }
-
     let videoUrl = existente?.video || "";
+    if (document.getElementById("admin-remover-video").checked) videoUrl = "";
+    if (videoArquivo) { mostrarProgresso("Enviando vídeo…"); videoUrl = (await BelaSync.enviarVideo(codigo, videoArquivo)).url; }
 
-    if (videoArquivo) {
-      videoUrl = (await BelaSync.enviarVideo(codigo, videoArquivo)).url;
-    }
-
-    const atual = existente || {};
-
-    const precoValor = Number(
-      document.getElementById("admin-preco").value || 0
-    );
-
+    const todasFotos = [...manter, ...urlsNovas];
+    let fotoPrincipal = fotoPrincipalEdicao && manter.includes(fotoPrincipalEdicao) ? fotoPrincipalEdicao : (manter[0] || "");
+    if (document.getElementById("admin-nova-capa").checked && urlsNovas.length) fotoPrincipal = urlsNovas[0];
+    if (!fotoPrincipal && urlsNovas.length) fotoPrincipal = urlsNovas[0];
+    const fotosOrdenadas = fotoPrincipal ? [fotoPrincipal, ...todasFotos.filter(url => url !== fotoPrincipal)] : todasFotos;
+    mostrarProgresso("Gravando os dados do produto na planilha…");
+    const precoValor = Number(document.getElementById("admin-preco").value || 0);
     const produto = {
-      codigo,
-      nome,
+      codigo, nome,
       categoria: document.getElementById("admin-categoria").value,
-      descricao: atual.descricao || "",
+      descricao: document.getElementById("admin-descricao").value.trim(),
       preco: precoValor,
-      estoque: atual.estoque || 0,
-      disponibilidade:
-        atual.disponibilidade || "Consulte disponibilidade",
-
-      foto_principal: urls[0] || atual.foto || "",
-
-      fotos_adicionais: urls.length
-        ? urls.slice(1).join("|")
-        : (atual.fotos || []).slice(1).join("|"),
-
-      tamanhos:
-        document.getElementById("admin-tamanhos").value.trim(),
-
+      estoque: Number(document.getElementById("admin-estoque").value || 0),
+      disponibilidade: document.getElementById("admin-disponibilidade").value.trim() || "Consulte disponibilidade",
+      foto_principal: fotosOrdenadas[0] || "",
+      fotos_adicionais: fotosOrdenadas.slice(1).join("|"),
+      tamanhos: document.getElementById("admin-tamanhos").value.trim(),
       video_url: videoUrl,
-      destaque: atual.destaque || false,
-      ativo: true
+      destaque: document.getElementById("admin-destaque").checked,
+      ativo: document.getElementById("admin-ativo").checked
     };
-
     await BelaSync.salvarProduto(produto);
-
-    await carregarProdutos();
-    renderListaAdmin();
-    limparFormulario();
-
+    mostrarProgresso("Produto salvo. Atualizando a vitrine…");
+    await carregarProdutos(); renderListaAdmin(); limparFormulario();
     alert("Produto salvo e sincronizado com a loja!");
-
   } catch (err) {
+    mostrarProgresso("Não foi possível concluir o salvamento: " + (err.message || "erro desconhecido"));
     alert(err.message || "Não foi possível salvar o produto.");
-  } finally {
-    botao.disabled = false;
-  }
+  } finally { botao.disabled = false; }
 });
-
 document.getElementById("enviar-whatsapp").onclick = () => {
-  if (!carrinho.length) {
-    alert("Sua sacola está vazia.");
-    return;
-  }
-
-  if (!numeroWhatsAppLoja) {
-    alert("O número de WhatsApp da Bela Modas ainda precisa ser configurado no código.");
-    return;
-  }
-
-  const nome =
-    document.getElementById("nome-cliente").value.trim() || "Cliente";
-
-  const linhas = [
-    `Olá, Bela Modas! Meu nome é ${nome} e gostaria de fazer este pedido:`
-  ];
-
-  carrinho.forEach(i => {
-    const p = produtos.find(x => x.codigo === i.codigo);
-
-    if (p) {
-      linhas.push(
-        `- ${p.nome} (ref. ${p.codigo}) x${i.quantidade} — ${p.preco}`
-      );
-    }
-  });
-
-  linhas.push(
-    "Observações: " +
-    (document.getElementById("obs-pedido").value.trim() || "Nenhuma")
-  );
-
-  window.open(
-    `https://wa.me/${numeroWhatsAppLoja}?text=${encodeURIComponent(linhas.join("\n"))}`,
-    "_blank",
-    "noopener"
-  );
+  if (!carrinho.length) { alert("Sua sacola está vazia."); return; }
+  if (!numeroWhatsAppLoja) { alert("O número de WhatsApp da Bela Modas ainda precisa ser configurado no código."); return; }
+  const nome = document.getElementById("nome-cliente").value.trim() || "Cliente";
+  const linhas = [`Olá, Bela Modas! Meu nome é ${nome} e gostaria de fazer este pedido:`];
+  carrinho.forEach(i => { const p = produtos.find(x => x.codigo === i.codigo); if (p) linhas.push(`- ${p.nome} (ref. ${p.codigo}) x${i.quantidade} — ${p.preco}`); });
+  linhas.push("Observações: " + (document.getElementById("obs-pedido").value.trim() || "Nenhuma"));
+  window.open(`https://wa.me/${numeroWhatsAppLoja}?text=${encodeURIComponent(linhas.join("\n"))}`, "_blank", "noopener");
 };
-
-document.querySelectorAll(".categoria").forEach(botao => {
-  botao.addEventListener("click", () => {
-    categoriaAtual = botao.dataset.categoria;
-
-    document.querySelectorAll(".categoria").forEach(item => {
-      item.classList.toggle("ativa", item === botao);
-    });
-
-    mostrarProdutos();
-  });
-});
-
+document.querySelectorAll(".categoria").forEach(botao => botao.addEventListener("click", () => {
+  categoriaAtual = botao.dataset.categoria;
+  document.querySelectorAll(".categoria").forEach(item => item.classList.toggle("ativa", item === botao));
+  mostrarProdutos();
+}));
 busca.addEventListener("input", mostrarProdutos);
+document.getElementById("fechar").addEventListener("click", () => modal.classList.remove("aberto"));
+modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("aberto"); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { modal.classList.remove("aberto"); document.querySelectorAll(".painel-extra.aberto").forEach(x => x.classList.remove("aberto")); } });
 
-document.getElementById("fechar").addEventListener("click", () => {
-  modal.classList.remove("aberto");
-});
-
-modal.addEventListener("click", e => {
-  if (e.target === modal) {
-    modal.classList.remove("aberto");
-  }
-});
-
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") {
-    modal.classList.remove("aberto");
-
-    document.querySelectorAll(".painel-extra.aberto").forEach(x => {
-      x.classList.remove("aberto");
-    });
-  }
-});
+(function carregarCacheInicial() {
+  try {
+    const dados = JSON.parse(localStorage.getItem("bela_modas_produtos_v1") || "null");
+    if (Array.isArray(dados)) { produtos = dados.map(normalizarProduto); mostrarProdutos(); }
+  } catch (_) {}
+})();
 
 (async function iniciarCatalogo() {
   mostrarProdutos();
-
   if (!window.BelaSync) {
     console.error("sync.js não foi carregado.");
     return;
   }
-
-  // Exibe imediatamente os produtos já guardados no navegador.
-  carregarCacheProdutos();
-
-  // Busca os dados atualizados na planilha.
-  try {
-    await carregarProdutos();
-
-  } catch (err) {
+  try { await carregarProdutos(); }
+  catch (err) {
     console.warn("Catálogo remoto indisponível:", err.message);
-
-    if (!produtos.length) {
-      areaProdutos.innerHTML =
-        '<div class="vazio">Não foi possível carregar os produtos. Tente novamente em instantes.</div>';
-    }
+    areaProdutos.innerHTML = '<div class="vazio">A vitrine está aguardando a configuração da conexão. Volte em instantes.</div>';
   }
 })();
 </script>
