@@ -287,7 +287,6 @@ footer p { color:#e6c98c; font-size:10px; letter-spacing:2px; margin:10px 0 22px
 .modal {
   width: min(420px, 100%);
   background: var(--fundo);
-  color: var(--texto);
   padding: 30px;
   position: relative;
 }
@@ -338,36 +337,9 @@ footer p { color:#e6c98c; font-size:10px; letter-spacing:2px; margin:10px 0 22px
 .botoes-produto button.secundario { background:transparent; color:var(--principal); border:1px solid #D8C9C1; }
 .painel-extra { display:none; position:fixed; inset:0; z-index:10; background:rgba(26,19,17,.65); padding:16px; align-items:center; justify-content:center; overflow:auto; }
 .painel-extra.aberto { display:flex; }
-.painel-conteudo {
-  background:var(--fundo);
-  color:var(--texto);
-  width:min(620px,100%);
-  max-height:95vh;
-  overflow:auto;
-  padding:24px;
-  position:relative;
-}
-.painel-conteudo h3 {
-  color:#351018;
-  font:normal 26px Georgia,serif;
-  margin:0 35px 16px 0;
-}
-.painel-conteudo p,
-.painel-conteudo label,
-.painel-conteudo small,
-.painel-conteudo strong,
-.painel-conteudo #lista-admin,
-.painel-conteudo #video-atual {
-  color:#351018;
-}
+.painel-conteudo { background:var(--fundo); width:min(620px,100%); max-height:95vh; overflow:auto; padding:24px; position:relative; }
+.painel-conteudo h3 { font:normal 26px Georgia,serif; margin:0 35px 16px 0; }
 .painel-conteudo label { display:block; font-size:12px; margin:12px 0 5px; }
-.painel-conteudo .aviso-demo {
-  color:#5b4145;
-  background:#f0e6df;
-}
-.painel-conteudo button:not(.botao-principal):not(.fechar) {
-  color:#650817;
-}
 .painel-conteudo input, .painel-conteudo select, .painel-conteudo textarea { width:100%; padding:11px; border:1px solid #D8C9C1; background:white; font:inherit; }
 .linha-form { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .item-carrinho { padding:12px 0; border-bottom:1px solid #D8C9C1; display:flex; justify-content:space-between; gap:10px; font-size:13px; }
@@ -576,7 +548,7 @@ footer { padding-top:24px; }
   <label for="nome-cliente">Seu nome</label><input id="nome-cliente" placeholder="Como podemos te chamar?">
   <label for="obs-pedido">Observações do pedido</label><textarea id="obs-pedido" rows="2" placeholder="Tamanho, cor ou outras informações"></textarea>
   <button class="botao-principal" id="enviar-whatsapp">Enviar pedido pelo WhatsApp</button>
-  <p class="aviso-demo">O envio depende de configurar o número de WhatsApp da loja no código.</p>
+  <p class="aviso-demo">Ao continuar, seu pedido será preparado no WhatsApp da Bela Modas para você revisar e enviar.</p>
 </div></div>
 <div class="painel-extra" id="painel-admin"><div class="painel-conteudo">
   <button class="fechar" data-fechar="painel-admin">×</button><h3>Configurar catálogo</h3>
@@ -623,7 +595,7 @@ let fotoPrincipalEdicao = "";
 const areaProdutos = document.getElementById("produtos");
 const busca = document.getElementById("busca");
 const modal = document.getElementById("modal");
-const numeroWhatsAppLoja = ""; // Preencha com DDI + DDD + número, somente dígitos.
+const numeroWhatsAppLoja = "5531997337304"; // WhatsApp Bela Modas: +55 31 99733-7304.
 
 function moeda(valor) {
   return Number(valor || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -1072,6 +1044,8 @@ document.getElementById("enviar-whatsapp").onclick = () => {
   const nome = document.getElementById("nome-cliente").value.trim() || "Cliente";
   const linhas = [`Olá, Bela Modas! Meu nome é ${nome} e gostaria de fazer este pedido:`];
   carrinho.forEach(i => { const p = produtos.find(x => x.codigo === i.codigo); if (p) linhas.push(`- ${p.nome} (ref. ${p.codigo}) x${i.quantidade} — ${p.preco}`); });
+  const total = carrinho.reduce((s, i) => { const p = produtos.find(x => x.codigo === i.codigo); return s + (p ? Number(p.precoValor || 0) * i.quantidade : 0); }, 0);
+  linhas.push(`Total dos produtos: ${moeda(total)}`);
   linhas.push("Observações: " + (document.getElementById("obs-pedido").value.trim() || "Nenhuma"));
   window.open(`https://wa.me/${numeroWhatsAppLoja}?text=${encodeURIComponent(linhas.join("\n"))}`, "_blank", "noopener");
 };
