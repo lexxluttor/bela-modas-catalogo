@@ -371,6 +371,10 @@ footer p { color:#e6c98c; font-size:10px; letter-spacing:2px; margin:10px 0 22px
 .painel-conteudo input, .painel-conteudo select, .painel-conteudo textarea { width:100%; padding:11px; border:1px solid #D8C9C1; background:white; font:inherit; }
 .linha-form { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .item-carrinho { padding:12px 0; border-bottom:1px solid #D8C9C1; display:flex; justify-content:space-between; gap:10px; font-size:13px; }
+.admin-item-produto { align-items:center; flex-wrap:wrap; }
+.admin-item-produto > span:first-child { flex:1 1 100%; }
+.admin-destaque-toggle { display:inline-flex!important; align-items:center; gap:5px; margin:0!important; white-space:nowrap; color:#650817; font-size:11px!important; cursor:pointer; }
+.painel-conteudo .admin-destaque-toggle input { width:auto!important; padding:0!important; margin:0; accent-color:#650817; }
 #fotos-atuais { display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:10px; margin:10px 0; }
 .foto-admin { border:1px solid #D8C9C1; border-radius:8px; padding:8px; background:white; min-width:0; }
 .foto-admin img { width:100%; aspect-ratio:3/4; object-fit:cover; display:block; border-radius:5px; background:#eee; }
@@ -455,7 +459,8 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); background-colo
 .navegacao-inferior button { min-width:0; border:0; border-right:1px solid rgba(232,189,112,.42); background:transparent; color:#f4d28e; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font:11px Arial,sans-serif; cursor:pointer; }
 .navegacao-inferior button:last-child { border-right:0; }
 .navegacao-inferior button span { font-size:26px; line-height:1.1; color:#f7d58e; }
-.navegacao-inferior .sacola-icone { position:relative; }
+.navegacao-inferior .sacola-icone { position:relative; display:grid; place-items:center; width:30px; height:29px; }
+.navegacao-inferior .sacola-icone .icone-sacola-svg { width:27px; height:27px; display:block; fill:none; stroke:#f7d58e; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .navegacao-inferior .sacola-icone i { position:absolute; right:-11px; top:-5px; min-width:16px; height:16px; padding:1px 4px; border-radius:20px; background:#f5d28a; color:#3a0611; font: bold 10px Arial; font-style:normal; }
 #abrir-admin { margin-top:10px; }
 footer { padding-bottom:30px; }
@@ -556,7 +561,7 @@ footer { padding-top:24px; }
   <button type="button" data-ir="inicio"><span>⌂</span>Início</button>
   <button type="button" data-ir="destaques"><span>★</span>Destaques</button>
   <button type="button" data-ir="categorias"><span>▦</span>Categorias</button>
-  <button type="button" id="nav-sacola"><span class="sacola-icone">♧<i id="contador-sacola-nav">0</i></span>Sacola</button>
+  <button type="button" id="nav-sacola"><span class="sacola-icone"><svg class="icone-sacola-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 8.5h13l1.1 12h-15.2l1.1-12Z"/><path d="M9 9V6.8a3 3 0 0 1 6 0V9"/></svg><i id="contador-sacola-nav">0</i></span>Sacola</button>
   <button type="button" id="nav-config"><span>⚙</span>Configurações</button>
 </nav>
 
@@ -596,7 +601,7 @@ footer { padding-top:24px; }
     <label for="admin-descricao">Descrição</label><textarea id="admin-descricao" rows="3" placeholder="Detalhes, tecido, cor e outras informações"></textarea>
     <div class="linha-form"><div><label for="admin-preco">Preço (R$)</label><input id="admin-preco" type="number" min="0" step="0.01" placeholder="49,90"></div><div><label for="admin-estoque">Estoque / quantidade</label><input id="admin-estoque" type="number" min="0" step="1" placeholder="Ex.: 5"></div></div>
     <div class="linha-form"><div><label for="admin-tamanhos">Tamanhos disponíveis</label><input id="admin-tamanhos" placeholder="P, M, G ou 21/22"></div><div><label for="admin-disponibilidade">Disponibilidade</label><input id="admin-disponibilidade" placeholder="Disponível / Sob consulta"></div></div>
-    <div class="linha-form"><div><label><input id="admin-destaque" type="checkbox" style="width:auto"> Destacar na vitrine</label></div><div><label><input id="admin-ativo" type="checkbox" checked style="width:auto"> Produto ativo/publicado</label></div></div>
+    <div class="linha-form"><div><label><input id="admin-ativo" type="checkbox" checked style="width:auto"> Produto ativo/publicado</label></div></div>
     <label for="admin-foto">Adicionar fotos (até 5 no total)</label><input id="admin-foto" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>Na edição, as fotos atuais aparecem abaixo. Você pode manter, remover ou escolher a foto principal.</small>
     <div id="fotos-atuais"></div>
     <label><input id="admin-nova-capa" type="checkbox" style="width:auto"> Usar a primeira foto nova como foto principal</label>
@@ -896,10 +901,43 @@ async function moverProduto(codigo, deslocamento) {
   }
 }
 
+async function alterarDestaqueRapido(produto, controle) {
+  const novoEstado = controle.checked;
+  controle.disabled = true;
+  try {
+    await BelaSync.salvarProduto({
+      codigo: produto.codigo,
+      nome: produto.nome,
+      ordem: produto.ordem,
+      categoria: produto.categoria,
+      descricao: produto.descricao,
+      preco: Number(produto.precoValor || 0),
+      estoque: produto.estoque,
+      disponibilidade: produto.disponibilidade,
+      foto_principal: produto.foto || "",
+      fotos_adicionais: (produto.fotos || []).filter(url => url && url !== produto.foto).join("|"),
+      tamanhos: produto.tamanhos || "",
+      video_url: produto.video || "",
+      destaque: novoEstado,
+      ativo: produto.ativo
+    });
+    produto.destaque = novoEstado;
+    salvarCacheProdutos();
+    renderDestaques();
+    controle.parentElement.title = novoEstado ? "Remover da vitrine de destaques" : "Colocar na vitrine de destaques";
+    controle.setAttribute("aria-label", `${novoEstado ? "Remover" : "Adicionar"} ${produto.nome} aos destaques`);
+  } catch (err) {
+    controle.checked = !novoEstado;
+    alert(err.message || "Não foi possível atualizar o destaque do produto.");
+  } finally {
+    controle.disabled = false;
+  }
+}
+
 function renderListaAdmin() {
   const area = document.getElementById("lista-admin"); area.replaceChildren();
   produtos.forEach((p, indice) => {
-    const linha = document.createElement("div"); linha.className = "item-carrinho";
+    const linha = document.createElement("div"); linha.className = "item-carrinho admin-item-produto";
     const nome = document.createElement("span"); nome.textContent = `${p.codigo} — ${p.nome}${p.ativo ? "" : " (inativo)"}`;
     const subir = document.createElement("button"); subir.type = "button"; subir.textContent = "↑";
     subir.title = "Mover produto para cima"; subir.setAttribute("aria-label", `Mover ${p.nome} para cima`);
@@ -907,6 +945,15 @@ function renderListaAdmin() {
     const descer = document.createElement("button"); descer.type = "button"; descer.textContent = "↓";
     descer.title = "Mover produto para baixo"; descer.setAttribute("aria-label", `Mover ${p.nome} para baixo`);
     descer.disabled = indice === produtos.length - 1; descer.onclick = () => moverProduto(p.codigo, 1);
+    const destaqueLabel = document.createElement("label");
+    destaqueLabel.className = "admin-destaque-toggle";
+    destaqueLabel.title = p.destaque ? "Remover da vitrine de destaques" : "Colocar na vitrine de destaques";
+    const destaqueCheck = document.createElement("input");
+    destaqueCheck.type = "checkbox";
+    destaqueCheck.checked = Boolean(p.destaque);
+    destaqueCheck.setAttribute("aria-label", `${p.destaque ? "Remover" : "Adicionar"} ${p.nome} aos destaques`);
+    destaqueCheck.onchange = () => alterarDestaqueRapido(p, destaqueCheck);
+    destaqueLabel.append(destaqueCheck, document.createTextNode(" Destaque"));
     const editar = document.createElement("button"); editar.type = "button"; editar.textContent = "Editar";
     editar.onclick = () => preencherFormulario(p);
     const apagar = document.createElement("button"); apagar.type = "button"; apagar.textContent = "Excluir";
@@ -915,7 +962,7 @@ function renderListaAdmin() {
       try { await BelaSync.excluirProduto(p.codigo); produtos = produtos.filter(x => x.codigo !== p.codigo); salvarCacheProdutos(); mostrarProdutos(); renderListaAdmin(); }
       catch (err) { alert(err.message || "Não foi possível excluir o produto."); }
     };
-    linha.append(nome, subir, descer, editar, apagar); area.appendChild(linha);
+    linha.append(nome, subir, descer, destaqueLabel, editar, apagar); area.appendChild(linha);
   });
 }
 function renderFotosExistentes() {
@@ -956,7 +1003,6 @@ function preencherFormulario(p) {
   document.getElementById("admin-estoque").value = p.estoque ?? 0;
   document.getElementById("admin-tamanhos").value = p.tamanhos || "";
   document.getElementById("admin-disponibilidade").value = p.disponibilidade || "Consulte disponibilidade";
-  document.getElementById("admin-destaque").checked = Boolean(p.destaque);
   document.getElementById("admin-ativo").checked = Boolean(p.ativo);
   document.getElementById("admin-foto").value = "";
   document.getElementById("admin-video").value = "";
@@ -1090,10 +1136,11 @@ document.getElementById("form-produto").addEventListener("submit", async e => {
     mostrarProgresso("Gravando os dados do produto na planilha…");
     const precoValor = Number(document.getElementById("admin-preco").value || 0);
     const ordemAtual = existente ? (Number(existente.ordem) || produtos.findIndex(p => p.codigo === existente.codigo) + 1) : 0;
-    const menorOrdem = produtos.reduce((menor, p) => Math.min(menor, Number(p.ordem) || 0), 0);
+    const ordensValidas = produtos.map(p => Number(p.ordem)).filter(n => Number.isFinite(n) && n > 0);
+    const menorOrdem = ordensValidas.length ? Math.min(...ordensValidas) : 1;
     const produto = {
       codigo, nome,
-      ordem: codigoEmEdicao ? ordemAtual : (menorOrdem > 0 ? menorOrdem - 1 : 1),
+      ordem: codigoEmEdicao ? ordemAtual : menorOrdem - 1,
       categoria: document.getElementById("admin-categoria").value,
       descricao: document.getElementById("admin-descricao").value.trim(),
       preco: precoValor,
@@ -1103,7 +1150,7 @@ document.getElementById("form-produto").addEventListener("submit", async e => {
       fotos_adicionais: fotosOrdenadas.slice(1).join("|"),
       tamanhos: document.getElementById("admin-tamanhos").value.trim(),
       video_url: videoUrl,
-      destaque: document.getElementById("admin-destaque").checked,
+      destaque: existente ? Boolean(existente.destaque) : false,
       ativo: document.getElementById("admin-ativo").checked
     };
     await BelaSync.salvarProduto(produto);
