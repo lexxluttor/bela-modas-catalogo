@@ -495,6 +495,24 @@ footer { padding-top:24px; }
   main { padding-top:14px; }
 }
 
+
+/* Preços promocionais: identidade de oferta sem pesar no carregamento. */
+.produto.em-promocao { border-color:#efb34b; background:linear-gradient(145deg,rgba(124,16,40,.96),rgba(43,3,11,.98)); box-shadow:0 5px 18px rgba(177,103,12,.22); }
+.produto .preco-atual { color:#ffd16d; }
+.produto .preco-legenda { color:#ffb4a8; }
+.tag-oferta { position:absolute; top:10px; right:10px; z-index:2; background:#e83d35; color:#fff; padding:7px 10px; border-radius:5px; font-size:10px; font-weight:900; letter-spacing:1px; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+.preco-em-oferta { display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 9px; }
+.preco-antigo { color:#b7a6a0; text-decoration:line-through; font-size:.82em; font-weight:500; }
+.preco-atual { color:#e63d35; font-size:1.28em; font-weight:900; }
+.preco-legenda { flex-basis:100%; color:#b8322d; font-size:9px; font-weight:900; letter-spacing:1.3px; }
+.selo-oferta-destaque { position:absolute; top:14px; right:14px; z-index:2; background:#e83d35; color:#fff; padding:9px 13px; border-radius:5px; font-size:11px; font-weight:900; letter-spacing:1.2px; box-shadow:0 3px 12px #25020a; }
+.preco-destaque.preco-em-oferta { display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+.preco-destaque .preco-legenda { font-size:9px; }
+.preco-destaque .preco-antigo { font-size:12px; }
+.preco-destaque .preco-atual { color:#ffe08a; font-size:24px; }
+.preco-modal { display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
+.preco-modal .preco-atual { font-size:25px; }
+.tamanhos-modal { display:block; margin-top:8px; color:inherit; font-size:12px; font-weight:normal; }
 </style>
 </head>
 
@@ -609,6 +627,9 @@ function normalizarProduto(p) {
     ? p.fotos
     : [p.foto_principal, ...(String(p.fotos_adicionais || "").split("|").filter(Boolean))].filter(Boolean);
   const precoValor = Number(p.preco_valor ?? p.preco ?? 0) || 0;
+  const precoPromocional = Number(p.preco_promocional || 0) || 0;
+  const emPromocao = precoPromocional > 0 && precoPromocional < precoValor;
+  const precoFinalValor = emPromocao ? precoPromocional : precoValor;
   return {
     codigo: String(p.codigo || ""),
     ordem: Number.isFinite(Number(p.ordem)) && Number(p.ordem) > 0 ? Number(p.ordem) : 0,
@@ -616,7 +637,11 @@ function normalizarProduto(p) {
     categoria: String(p.categoria || ""),
     descricao: String(p.descricao || ""),
     precoValor,
-    preco: p.preco ? (typeof p.preco === "number" ? moeda(p.preco) : String(p.preco)) : (precoValor ? moeda(precoValor) : "Consulte o preço"),
+    precoPromocionalValor: emPromocao ? precoPromocional : 0,
+    emPromocao,
+    precoFinalValor,
+    precoOriginal: precoValor ? moeda(precoValor) : "Consulte o preço",
+    preco: precoFinalValor ? moeda(precoFinalValor) : "Consulte o preço",
     estoque: Number(p.estoque || 0),
     disponibilidade: String(p.disponibilidade || "Consulte disponibilidade"),
     destaque: p.destaque === true || p.destaque === "true",
@@ -628,6 +653,26 @@ function normalizarProduto(p) {
     video: String(p.video_url || p.video || "")
   };
 }
+function montarPrecoVisual(produto, classe = "preco") {
+  const area = document.createElement("div");
+  area.className = classe + (produto.emPromocao ? " preco-em-oferta" : "");
+  if (produto.emPromocao) {
+    const antigo = document.createElement("span");
+    antigo.className = "preco-antigo";
+    antigo.textContent = produto.precoOriginal;
+    const atual = document.createElement("strong");
+    atual.className = "preco-atual";
+    atual.textContent = moeda(produto.precoFinalValor);
+    const selo = document.createElement("small");
+    selo.className = "preco-legenda";
+    selo.textContent = "OFERTA";
+    area.append(selo, antigo, atual);
+  } else {
+    area.textContent = produto.preco;
+  }
+  return area;
+}
+
 function gerarUrlDestaque(url) {
   if (!url) return "";
   try {
@@ -659,12 +704,13 @@ function renderDestaques() {
     if (i < 2) img.fetchPriority = "high";
     foto.appendChild(img);
     if (produto.destaque) { const selo = document.createElement("span"); selo.className = "selo-destaque"; selo.textContent = "✦ Em destaque"; foto.appendChild(selo); }
+    if (produto.emPromocao) { const oferta = document.createElement("span"); oferta.className = "selo-oferta-destaque"; oferta.textContent = "OFERTA"; foto.appendChild(oferta); }
     const info = document.createElement("div"); info.className = "info-destaque";
     const textos = document.createElement("div");
     const categoria = document.createElement("div"); categoria.className = "categoria-destaque"; categoria.textContent = produto.categoria || "Bela Modas";
     const nome = document.createElement("div"); nome.className = "nome-destaque"; nome.textContent = produto.nome;
     textos.append(categoria,nome);
-    const preco = document.createElement("div"); preco.className = "preco-destaque"; preco.textContent = produto.preco;
+    const preco = montarPrecoVisual(produto, "preco-destaque");
     const ver = document.createElement("button"); ver.type = "button"; ver.className = "ver-destaque"; ver.textContent = "VER PRODUTO  ›"; ver.onclick = e => { e.stopPropagation(); abrirProduto(produto); };
     info.append(textos,preco,ver); card.append(foto,info); card.addEventListener("click", e => { if (e.target !== ver) abrirProduto(produto); }); faixa.appendChild(card);
     const ponto = document.createElement("button"); ponto.type = "button"; ponto.className = "ponto-carrossel" + (i===0 ? " ativo" : ""); ponto.setAttribute("aria-label", `Mostrar destaque ${i+1}`);
@@ -706,7 +752,7 @@ function mostrarProdutos() {
   }
   encontrados.forEach((produto, indice) => {
     const card = document.createElement("article");
-    card.className = "produto";
+    card.className = "produto" + (produto.emPromocao ? " em-promocao" : "");
     const foto = document.createElement("div");
     foto.className = "foto";
     const capa = produto.miniaturas[0] || produto.foto || produto.fotos[0];
@@ -722,10 +768,13 @@ function mostrarProdutos() {
     if (produto.destaque) {
       const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = "Destaque"; foto.appendChild(tag);
     }
+    if (produto.emPromocao) {
+      const tagOferta = document.createElement("span"); tagOferta.className = "tag-oferta"; tagOferta.textContent = "OFERTA"; foto.appendChild(tagOferta);
+    }
     const info = document.createElement("div"); info.className = "informacoes";
     const tipo = document.createElement("div"); tipo.className = "tipo"; tipo.textContent = produto.categoria;
     const nome = document.createElement("div"); nome.className = "nome"; nome.textContent = produto.nome;
-    const preco = document.createElement("div"); preco.className = "preco"; preco.textContent = produto.preco;
+    const preco = montarPrecoVisual(produto, "preco");
     const disponibilidade = document.createElement("div"); disponibilidade.className = "disponibilidade";
     disponibilidade.textContent = produto.disponibilidade || "Consulte disponibilidade";
     const botoes = document.createElement("div"); botoes.className = "botoes-produto";
@@ -741,8 +790,14 @@ function mostrarProdutos() {
 function abrirProduto(produto) {
   document.getElementById("modal-tipo").textContent = produto.categoria;
   document.getElementById("modal-nome").textContent = produto.nome;
-  document.getElementById("modal-preco").textContent = produto.preco +
-    (produto.tamanhos ? " · Tamanhos: " + produto.tamanhos : "");
+  const precoModal = document.getElementById("modal-preco");
+  precoModal.replaceChildren(montarPrecoVisual(produto, "preco-modal"));
+  if (produto.tamanhos) {
+    const tamanhos = document.createElement("span");
+    tamanhos.className = "tamanhos-modal";
+    tamanhos.textContent = "Tamanhos: " + produto.tamanhos;
+    precoModal.appendChild(tamanhos);
+  }
   const galeria = document.getElementById("modal-galeria");
   galeria.replaceChildren();
   const fotos = produto.fotos.length ? produto.fotos : (produto.foto ? [produto.foto] : []);
@@ -805,7 +860,7 @@ function atualizarCarrinho() {
   area.replaceChildren(); let total = 0;
   carrinho.forEach(item => {
     const p = produtos.find(x => x.codigo === item.codigo); if (!p) return;
-    total += Number(p.precoValor || 0) * item.quantidade;
+    total += Number(p.precoFinalValor ?? p.precoValor ?? 0) * item.quantidade;
     const linha = document.createElement("div"); linha.className = "item-carrinho";
     const texto = document.createElement("span"); texto.textContent = `${p.nome} × ${item.quantidade} — ${p.preco}`;
     const remover = document.createElement("button"); remover.type = "button"; remover.textContent = "−";
@@ -873,7 +928,7 @@ document.getElementById("enviar-whatsapp").onclick = () => {
   const nome = document.getElementById("nome-cliente").value.trim() || "Cliente";
   const linhas = [`Olá, Bela Modas! Meu nome é ${nome} e gostaria de fazer este pedido:`];
   carrinho.forEach(i => { const p = produtos.find(x => x.codigo === i.codigo); if (p) linhas.push(`- ${p.nome} (ref. ${p.codigo}) x${i.quantidade} — ${p.preco}`); });
-  const total = carrinho.reduce((s, i) => { const p = produtos.find(x => x.codigo === i.codigo); return s + (p ? Number(p.precoValor || 0) * i.quantidade : 0); }, 0);
+  const total = carrinho.reduce((s, i) => { const p = produtos.find(x => x.codigo === i.codigo); return s + (p ? Number(p.precoFinalValor ?? p.precoValor ?? 0) * i.quantidade : 0); }, 0);
   linhas.push(`Total dos produtos: ${moeda(total)}`);
   linhas.push("Observações: " + (document.getElementById("obs-pedido").value.trim() || "Nenhuma"));
   window.open(`https://wa.me/${numeroWhatsAppLoja}?text=${encodeURIComponent(linhas.join("\n"))}`, "_blank", "noopener");

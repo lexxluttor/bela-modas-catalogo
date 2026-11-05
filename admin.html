@@ -519,6 +519,45 @@ footer { padding-top:24px; }
 .admin-page #painel-admin #sair-admin { margin-top:22px; }
 @media(max-width:600px){ .admin-page #painel-admin{padding:8px;} .admin-page #painel-admin .painel-conteudo{padding:18px 14px;min-height:calc(100vh - 16px);} }
 
+
+/* Preços promocionais: identidade de oferta sem pesar no carregamento. */
+.produto.em-promocao { border-color:#efb34b; background:linear-gradient(145deg,rgba(124,16,40,.96),rgba(43,3,11,.98)); box-shadow:0 5px 18px rgba(177,103,12,.22); }
+.produto .preco-atual { color:#ffd16d; }
+.produto .preco-legenda { color:#ffb4a8; }
+.tag-oferta { position:absolute; top:10px; right:10px; z-index:2; background:#e83d35; color:#fff; padding:7px 10px; border-radius:5px; font-size:10px; font-weight:900; letter-spacing:1px; box-shadow:0 2px 8px rgba(0,0,0,.2); }
+.preco-em-oferta { display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 9px; }
+.preco-antigo { color:#b7a6a0; text-decoration:line-through; font-size:.82em; font-weight:500; }
+.preco-atual { color:#e63d35; font-size:1.28em; font-weight:900; }
+.preco-legenda { flex-basis:100%; color:#b8322d; font-size:9px; font-weight:900; letter-spacing:1.3px; }
+.selo-oferta-destaque { position:absolute; top:14px; right:14px; z-index:2; background:#e83d35; color:#fff; padding:9px 13px; border-radius:5px; font-size:11px; font-weight:900; letter-spacing:1.2px; box-shadow:0 3px 12px #25020a; }
+.preco-destaque.preco-em-oferta { display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+.preco-destaque .preco-legenda { font-size:9px; }
+.preco-destaque .preco-antigo { font-size:12px; }
+.preco-destaque .preco-atual { color:#ffe08a; font-size:24px; }
+.preco-modal { display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
+.preco-modal .preco-atual { font-size:25px; }
+.tamanhos-modal { display:block; margin-top:8px; color:inherit; font-size:12px; font-weight:normal; }
+
+.promo-admin-overlay { display:none; position:fixed; inset:0; z-index:30; background:rgba(20,2,7,.78); padding:18px; align-items:center; justify-content:center; }
+.promo-admin-overlay.aberto { display:flex; }
+.promo-admin-modal { width:min(430px,100%); position:relative; padding:25px; border:1px solid #e5bd70; border-radius:16px; background:#fff8ef; color:#351018; box-shadow:0 18px 60px rgba(0,0,0,.4); }
+.promo-admin-modal h3 { color:#650817; font:normal 25px Georgia,serif; margin:12px 30px 8px 0; }
+.promo-admin-modal p { color:#70565a; font-size:12px; line-height:1.5; }
+.promo-admin-selo { display:inline-block; padding:7px 11px; border-radius:5px; background:#e83d35; color:white; font-size:10px; font-weight:900; letter-spacing:1px; }
+.promo-admin-fechar { position:absolute; top:12px; right:14px; border:0; background:transparent; color:#650817; font-size:27px; cursor:pointer; }
+.promo-preco-original { margin:15px 0; padding:12px; border-radius:8px; background:#f2e7dc; color:#654b4d; font-size:13px; }
+.promo-admin-modal label { display:block; margin:12px 0 6px; font-size:12px; font-weight:700; }
+.promo-admin-modal input { width:100%; padding:13px; border:1px solid #d7c3b6; border-radius:8px; background:white; color:#351018; font-size:18px; }
+.promo-ajuda { margin:8px 0 15px; }
+.promo-acoes { display:flex; flex-wrap:wrap; gap:8px; }
+.promo-acoes button { flex:1 1 auto; padding:11px 12px; border:1px solid #d8c9c1; border-radius:7px; background:#fff; color:#650817; font-weight:700; cursor:pointer; }
+.promo-acoes #salvar-promocao { background:#650817; color:#fff4e7; border-color:#650817; }
+.promo-acoes #retirar-promocao { color:#b52b2b; border-color:#e3b5ad; }
+.admin-promocao-ativa { color:#b8322d; font-size:11px; font-weight:700; }
+.admin-botao-promocao { white-space:nowrap; }
+.item-carrinho:has(.admin-botao-promocao) { align-items:center; flex-wrap:wrap; }
+.item-carrinho:has(.admin-botao-promocao) > span:first-child { flex:1 1 180px; }
+@media(max-width:520px){.promo-admin-modal{padding:21px 17px}.promo-acoes button{flex:1 1 100%}}
 </style>
 </head>
 
@@ -632,6 +671,24 @@ footer { padding-top:24px; }
   </div>
 </div></div>
 
+<div class="promo-admin-overlay" id="modal-promocao" aria-hidden="true">
+  <section class="promo-admin-modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-promocao">
+    <button type="button" class="promo-admin-fechar" id="fechar-modal-promocao" aria-label="Fechar">×</button>
+    <span class="promo-admin-selo">🏷️ OFERTA</span>
+    <h3 id="titulo-modal-promocao">Colocar produto em promoção</h3>
+    <p id="promo-produto-nome"></p>
+    <div class="promo-preco-original">Preço normal: <strong id="promo-preco-original"></strong></div>
+    <label for="promo-novo-preco">Novo preço promocional (R$)</label>
+    <input id="promo-novo-preco" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="89,99">
+    <p class="promo-ajuda">O preço original será mantido. O valor promocional precisa ser menor que o preço normal.</p>
+    <div class="promo-acoes">
+      <button type="button" id="cancelar-modal-promocao">Cancelar</button>
+      <button type="button" id="retirar-promocao" hidden>Retirar promoção</button>
+      <button type="button" id="salvar-promocao">Salvar promoção</button>
+    </div>
+  </section>
+</div>
+
 <script src="sync.js"></script>
 <script>
 "use strict";
@@ -667,6 +724,9 @@ function normalizarProduto(p) {
     ? p.fotos
     : [p.foto_principal, ...(String(p.fotos_adicionais || "").split("|").filter(Boolean))].filter(Boolean);
   const precoValor = Number(p.preco_valor ?? p.preco ?? 0) || 0;
+  const precoPromocional = Number(p.preco_promocional || 0) || 0;
+  const emPromocao = precoPromocional > 0 && precoPromocional < precoValor;
+  const precoFinalValor = emPromocao ? precoPromocional : precoValor;
   return {
     codigo: String(p.codigo || ""),
     ordem: Number.isFinite(Number(p.ordem)) && Number(p.ordem) > 0 ? Number(p.ordem) : 0,
@@ -674,7 +734,11 @@ function normalizarProduto(p) {
     categoria: String(p.categoria || ""),
     descricao: String(p.descricao || ""),
     precoValor,
-    preco: p.preco ? (typeof p.preco === "number" ? moeda(p.preco) : String(p.preco)) : (precoValor ? moeda(precoValor) : "Consulte o preço"),
+    precoPromocionalValor: emPromocao ? precoPromocional : 0,
+    emPromocao,
+    precoFinalValor,
+    precoOriginal: precoValor ? moeda(precoValor) : "Consulte o preço",
+    preco: precoFinalValor ? moeda(precoFinalValor) : "Consulte o preço",
     estoque: Number(p.estoque || 0),
     disponibilidade: String(p.disponibilidade || "Consulte disponibilidade"),
     destaque: p.destaque === true || p.destaque === "true",
@@ -686,6 +750,26 @@ function normalizarProduto(p) {
     video: String(p.video_url || p.video || "")
   };
 }
+function montarPrecoVisual(produto, classe = "preco") {
+  const area = document.createElement("div");
+  area.className = classe + (produto.emPromocao ? " preco-em-oferta" : "");
+  if (produto.emPromocao) {
+    const antigo = document.createElement("span");
+    antigo.className = "preco-antigo";
+    antigo.textContent = produto.precoOriginal;
+    const atual = document.createElement("strong");
+    atual.className = "preco-atual";
+    atual.textContent = moeda(produto.precoFinalValor);
+    const selo = document.createElement("small");
+    selo.className = "preco-legenda";
+    selo.textContent = "OFERTA";
+    area.append(selo, antigo, atual);
+  } else {
+    area.textContent = produto.preco;
+  }
+  return area;
+}
+
 function gerarUrlDestaque(url) {
   if (!url) return "";
   try {
@@ -717,12 +801,13 @@ function renderDestaques() {
     if (i < 2) img.fetchPriority = "high";
     foto.appendChild(img);
     if (produto.destaque) { const selo = document.createElement("span"); selo.className = "selo-destaque"; selo.textContent = "✦ Em destaque"; foto.appendChild(selo); }
+    if (produto.emPromocao) { const oferta = document.createElement("span"); oferta.className = "selo-oferta-destaque"; oferta.textContent = "OFERTA"; foto.appendChild(oferta); }
     const info = document.createElement("div"); info.className = "info-destaque";
     const textos = document.createElement("div");
     const categoria = document.createElement("div"); categoria.className = "categoria-destaque"; categoria.textContent = produto.categoria || "Bela Modas";
     const nome = document.createElement("div"); nome.className = "nome-destaque"; nome.textContent = produto.nome;
     textos.append(categoria,nome);
-    const preco = document.createElement("div"); preco.className = "preco-destaque"; preco.textContent = produto.preco;
+    const preco = montarPrecoVisual(produto, "preco-destaque");
     const ver = document.createElement("button"); ver.type = "button"; ver.className = "ver-destaque"; ver.textContent = "VER PRODUTO  ›"; ver.onclick = e => { e.stopPropagation(); abrirProduto(produto); };
     info.append(textos,preco,ver); card.append(foto,info); card.addEventListener("click", e => { if (e.target !== ver) abrirProduto(produto); }); faixa.appendChild(card);
     const ponto = document.createElement("button"); ponto.type = "button"; ponto.className = "ponto-carrossel" + (i===0 ? " ativo" : ""); ponto.setAttribute("aria-label", `Mostrar destaque ${i+1}`);
@@ -764,7 +849,7 @@ function mostrarProdutos() {
   }
   encontrados.forEach((produto, indice) => {
     const card = document.createElement("article");
-    card.className = "produto";
+    card.className = "produto" + (produto.emPromocao ? " em-promocao" : "");
     const foto = document.createElement("div");
     foto.className = "foto";
     const capa = produto.miniaturas[0] || produto.foto || produto.fotos[0];
@@ -780,10 +865,13 @@ function mostrarProdutos() {
     if (produto.destaque) {
       const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = "Destaque"; foto.appendChild(tag);
     }
+    if (produto.emPromocao) {
+      const tagOferta = document.createElement("span"); tagOferta.className = "tag-oferta"; tagOferta.textContent = "OFERTA"; foto.appendChild(tagOferta);
+    }
     const info = document.createElement("div"); info.className = "informacoes";
     const tipo = document.createElement("div"); tipo.className = "tipo"; tipo.textContent = produto.categoria;
     const nome = document.createElement("div"); nome.className = "nome"; nome.textContent = produto.nome;
-    const preco = document.createElement("div"); preco.className = "preco"; preco.textContent = produto.preco;
+    const preco = montarPrecoVisual(produto, "preco");
     const disponibilidade = document.createElement("div"); disponibilidade.className = "disponibilidade";
     disponibilidade.textContent = produto.disponibilidade || "Consulte disponibilidade";
     const botoes = document.createElement("div"); botoes.className = "botoes-produto";
@@ -799,8 +887,14 @@ function mostrarProdutos() {
 function abrirProduto(produto) {
   document.getElementById("modal-tipo").textContent = produto.categoria;
   document.getElementById("modal-nome").textContent = produto.nome;
-  document.getElementById("modal-preco").textContent = produto.preco +
-    (produto.tamanhos ? " · Tamanhos: " + produto.tamanhos : "");
+  const precoModal = document.getElementById("modal-preco");
+  precoModal.replaceChildren(montarPrecoVisual(produto, "preco-modal"));
+  if (produto.tamanhos) {
+    const tamanhos = document.createElement("span");
+    tamanhos.className = "tamanhos-modal";
+    tamanhos.textContent = "Tamanhos: " + produto.tamanhos;
+    precoModal.appendChild(tamanhos);
+  }
   const galeria = document.getElementById("modal-galeria");
   galeria.replaceChildren();
   const fotos = produto.fotos.length ? produto.fotos : (produto.foto ? [produto.foto] : []);
@@ -863,7 +957,7 @@ function atualizarCarrinho() {
   area.replaceChildren(); let total = 0;
   carrinho.forEach(item => {
     const p = produtos.find(x => x.codigo === item.codigo); if (!p) return;
-    total += Number(p.precoValor || 0) * item.quantidade;
+    total += Number(p.precoFinalValor ?? p.precoValor ?? 0) * item.quantidade;
     const linha = document.createElement("div"); linha.className = "item-carrinho";
     const texto = document.createElement("span"); texto.textContent = `${p.nome} × ${item.quantidade} — ${p.preco}`;
     const remover = document.createElement("button"); remover.type = "button"; remover.textContent = "−";
@@ -930,6 +1024,7 @@ async function alterarDestaqueRapido(produto, controle) {
       categoria: produto.categoria,
       descricao: produto.descricao,
       preco: Number(produto.precoValor || 0),
+      preco_promocional: produto.precoPromocionalValor || "",
       estoque: produto.estoque,
       disponibilidade: produto.disponibilidade,
       foto_principal: produto.foto || "",
@@ -952,6 +1047,68 @@ async function alterarDestaqueRapido(produto, controle) {
   }
 }
 
+let produtoSelecionadoPromocao = null;
+function abrirModalPromocao(produto) {
+  produtoSelecionadoPromocao = produto;
+  document.getElementById("promo-produto-nome").textContent = `${produto.codigo} — ${produto.nome}`;
+  document.getElementById("promo-preco-original").textContent = moeda(produto.precoValor);
+  document.getElementById("promo-novo-preco").value = produto.emPromocao ? produto.precoPromocionalValor : "";
+  document.getElementById("retirar-promocao").hidden = !produto.emPromocao;
+  document.getElementById("titulo-modal-promocao").textContent = produto.emPromocao ? "Alterar promoção" : "Colocar produto em promoção";
+  const modal = document.getElementById("modal-promocao");
+  modal.classList.add("aberto"); modal.setAttribute("aria-hidden", "false");
+  setTimeout(() => document.getElementById("promo-novo-preco").focus(), 30);
+}
+function fecharModalPromocao() {
+  const modal = document.getElementById("modal-promocao");
+  modal.classList.remove("aberto"); modal.setAttribute("aria-hidden", "true");
+  produtoSelecionadoPromocao = null;
+}
+async function gravarPromocao(valor) {
+  const produto = produtoSelecionadoPromocao;
+  if (!produto) return;
+  const promocional = valor === "" ? "" : Number(valor);
+  if (promocional !== "" && (!Number.isFinite(promocional) || promocional <= 0 || promocional >= Number(produto.precoValor))) {
+    throw new Error("O preço promocional deve ser maior que zero e menor que o preço normal.");
+  }
+  const botao = document.getElementById("salvar-promocao");
+  botao.disabled = true;
+  try {
+    await BelaSync.salvarProduto({
+      codigo: produto.codigo, nome: produto.nome, ordem: produto.ordem,
+      categoria: produto.categoria, descricao: produto.descricao,
+      preco: Number(produto.precoValor || 0), preco_promocional: promocional,
+      estoque: produto.estoque, disponibilidade: produto.disponibilidade,
+      foto_principal: produto.foto || "",
+      fotos_adicionais: (produto.fotos || []).filter(url => url && url !== produto.foto).join("|"),
+      tamanhos: produto.tamanhos || "", video_url: produto.video || "",
+      destaque: Boolean(produto.destaque), ativo: produto.ativo
+    });
+    produto.precoPromocionalValor = promocional === "" ? 0 : promocional;
+    produto.emPromocao = promocional !== "";
+    produto.precoFinalValor = promocional === "" ? produto.precoValor : promocional;
+    produto.preco = moeda(produto.precoFinalValor);
+    salvarCacheProdutos();
+    mostrarProdutos(); renderDestaques(); renderListaAdmin();
+    fecharModalPromocao();
+  } finally { botao.disabled = false; }
+}
+document.getElementById("fechar-modal-promocao").onclick = fecharModalPromocao;
+document.getElementById("cancelar-modal-promocao").onclick = fecharModalPromocao;
+document.getElementById("modal-promocao").addEventListener("click", e => { if (e.target.id === "modal-promocao") fecharModalPromocao(); });
+document.getElementById("salvar-promocao").onclick = async () => {
+  try {
+    const valor = document.getElementById("promo-novo-preco").value;
+    if (!valor) throw new Error("Informe o novo preço promocional.");
+    await gravarPromocao(valor);
+  } catch (err) { alert(err.message || "Não foi possível salvar a promoção."); }
+};
+document.getElementById("retirar-promocao").onclick = async () => {
+  if (!confirm("Retirar a promoção e voltar ao preço normal?")) return;
+  try { await gravarPromocao(""); }
+  catch (err) { alert(err.message || "Não foi possível retirar a promoção."); }
+};
+
 function renderListaAdmin() {
   const area = document.getElementById("lista-admin"); area.replaceChildren();
   produtos.forEach((p, indice) => {
@@ -972,6 +1129,11 @@ function renderListaAdmin() {
     destaqueCheck.setAttribute("aria-label", `${p.destaque ? "Remover" : "Adicionar"} ${p.nome} aos destaques`);
     destaqueCheck.onchange = () => alterarDestaqueRapido(p, destaqueCheck);
     destaqueLabel.append(destaqueCheck, document.createTextNode(" Destaque"));
+    const promocao = document.createElement("button"); promocao.type = "button";
+    promocao.className = "admin-botao-promocao";
+    promocao.textContent = p.emPromocao ? "🏷 Oferta ativa" : "🏷 Promoção";
+    promocao.title = p.emPromocao ? `Alterar ou retirar promoção (${moeda(p.precoPromocionalValor)})` : "Definir preço promocional";
+    promocao.onclick = () => abrirModalPromocao(p);
     const editar = document.createElement("button"); editar.type = "button"; editar.textContent = "Editar";
     editar.onclick = () => preencherFormulario(p);
     const apagar = document.createElement("button"); apagar.type = "button"; apagar.textContent = "Excluir";
@@ -980,7 +1142,7 @@ function renderListaAdmin() {
       try { await BelaSync.excluirProduto(p.codigo); produtos = produtos.filter(x => x.codigo !== p.codigo); salvarCacheProdutos(); mostrarProdutos(); renderListaAdmin(); }
       catch (err) { alert(err.message || "Não foi possível excluir o produto."); }
     };
-    linha.append(nome, subir, descer, destaqueLabel, editar, apagar); area.appendChild(linha);
+    linha.append(nome, subir, descer, destaqueLabel, promocao, editar, apagar); area.appendChild(linha);
   });
 }
 function renderFotosExistentes() {
@@ -1162,6 +1324,7 @@ document.getElementById("form-produto").addEventListener("submit", async e => {
       categoria: document.getElementById("admin-categoria").value,
       descricao: document.getElementById("admin-descricao").value.trim(),
       preco: precoValor,
+      preco_promocional: existente?.precoPromocionalValor || "",
       estoque: Number(document.getElementById("admin-estoque").value || 0),
       disponibilidade: document.getElementById("admin-disponibilidade").value.trim() || "Consulte disponibilidade",
       foto_principal: fotosOrdenadas[0] || "",
@@ -1186,7 +1349,7 @@ document.getElementById("enviar-whatsapp").onclick = () => {
   const nome = document.getElementById("nome-cliente").value.trim() || "Cliente";
   const linhas = [`Olá, Bela Modas! Meu nome é ${nome} e gostaria de fazer este pedido:`];
   carrinho.forEach(i => { const p = produtos.find(x => x.codigo === i.codigo); if (p) linhas.push(`- ${p.nome} (ref. ${p.codigo}) x${i.quantidade} — ${p.preco}`); });
-  const total = carrinho.reduce((s, i) => { const p = produtos.find(x => x.codigo === i.codigo); return s + (p ? Number(p.precoValor || 0) * i.quantidade : 0); }, 0);
+  const total = carrinho.reduce((s, i) => { const p = produtos.find(x => x.codigo === i.codigo); return s + (p ? Number(p.precoFinalValor ?? p.precoValor ?? 0) * i.quantidade : 0); }, 0);
   linhas.push(`Total dos produtos: ${moeda(total)}`);
   linhas.push("Observações: " + (document.getElementById("obs-pedido").value.trim() || "Nenhuma"));
   window.open(`https://wa.me/${numeroWhatsAppLoja}?text=${encodeURIComponent(linhas.join("\n"))}`, "_blank", "noopener");
