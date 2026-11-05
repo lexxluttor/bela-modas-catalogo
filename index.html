@@ -646,6 +646,7 @@ function normalizarProduto(p) {
   const precoValor = Number(p.preco_valor ?? p.preco ?? 0) || 0;
   return {
     codigo: String(p.codigo || ""),
+    ordem: Number.isFinite(Number(p.ordem)) && Number(p.ordem) > 0 ? Number(p.ordem) : 0,
     nome: String(p.nome || ""),
     categoria: String(p.categoria || ""),
     descricao: String(p.descricao || ""),
@@ -857,11 +858,55 @@ function abrirPainel(id) {
 document.getElementById("abrir-admin").onclick = () => abrirPainel("painel-admin");
 document.querySelectorAll("[data-fechar]").forEach(b => b.onclick = () => document.getElementById(b.dataset.fechar).classList.remove("aberto"));
 
+function ordenarProdutosLocalmente() {
+  produtos.sort((a, b) => {
+    const ordemA = Number(a.ordem) || Number.MAX_SAFE_INTEGER;
+    const ordemB = Number(b.ordem) || Number.MAX_SAFE_INTEGER;
+    return ordemA - ordemB;
+  });
+}
+
+async function moverProduto(codigo, deslocamento) {
+  if (!BelaSync || typeof BelaSync.salvarOrdemProdutos !== "function") {
+    alert("A conexão ainda não está preparada para salvar a ordem. Atualize também o arquivo sync.js.");
+    return;
+  }
+  const indice = produtos.findIndex(p => p.codigo === codigo);
+  const destino = indice + deslocamento;
+  if (indice < 0 || destino < 0 || destino >= produtos.length) return;
+
+  const anterior = produtos.map(p => ({ ...p }));
+  [produtos[indice], produtos[destino]] = [produtos[destino], produtos[indice]];
+  produtos.forEach((p, i) => { p.ordem = i + 1; });
+  renderListaAdmin();
+  mostrarProdutos();
+  renderDestaques();
+
+  try {
+    const codigos = produtos.map(p => p.codigo);
+    await BelaSync.salvarOrdemProdutos(codigos);
+    salvarCacheProdutos();
+  } catch (err) {
+    produtos = anterior;
+    ordenarProdutosLocalmente();
+    renderListaAdmin();
+    mostrarProdutos();
+    renderDestaques();
+    alert(err.message || "Não foi possível salvar a ordem dos produtos.");
+  }
+}
+
 function renderListaAdmin() {
   const area = document.getElementById("lista-admin"); area.replaceChildren();
-  produtos.forEach(p => {
+  produtos.forEach((p, indice) => {
     const linha = document.createElement("div"); linha.className = "item-carrinho";
     const nome = document.createElement("span"); nome.textContent = `${p.codigo} — ${p.nome}${p.ativo ? "" : " (inativo)"}`;
+    const subir = document.createElement("button"); subir.type = "button"; subir.textContent = "↑";
+    subir.title = "Mover produto para cima"; subir.setAttribute("aria-label", `Mover ${p.nome} para cima`);
+    subir.disabled = indice === 0; subir.onclick = () => moverProduto(p.codigo, -1);
+    const descer = document.createElement("button"); descer.type = "button"; descer.textContent = "↓";
+    descer.title = "Mover produto para baixo"; descer.setAttribute("aria-label", `Mover ${p.nome} para baixo`);
+    descer.disabled = indice === produtos.length - 1; descer.onclick = () => moverProduto(p.codigo, 1);
     const editar = document.createElement("button"); editar.type = "button"; editar.textContent = "Editar";
     editar.onclick = () => preencherFormulario(p);
     const apagar = document.createElement("button"); apagar.type = "button"; apagar.textContent = "Excluir";
@@ -870,7 +915,7 @@ function renderListaAdmin() {
       try { await BelaSync.excluirProduto(p.codigo); produtos = produtos.filter(x => x.codigo !== p.codigo); salvarCacheProdutos(); mostrarProdutos(); renderListaAdmin(); }
       catch (err) { alert(err.message || "Não foi possível excluir o produto."); }
     };
-    linha.append(nome, editar, apagar); area.appendChild(linha);
+    linha.append(nome, subir, descer, editar, apagar); area.appendChild(linha);
   });
 }
 function renderFotosExistentes() {
@@ -941,6 +986,7 @@ function salvarCacheProdutos() {
 async function carregarProdutos() {
   const dados = await BelaSync.buscarProdutos();
   produtos = dados.map(normalizarProduto);
+  ordenarProdutosLocalmente();
   salvarCacheProdutos();
   mostrarProdutos();
   renderDestaques();
@@ -1043,8 +1089,11 @@ document.getElementById("form-produto").addEventListener("submit", async e => {
     const fotosOrdenadas = fotoPrincipal ? [fotoPrincipal, ...todasFotos.filter(url => url !== fotoPrincipal)] : todasFotos;
     mostrarProgresso("Gravando os dados do produto na planilha…");
     const precoValor = Number(document.getElementById("admin-preco").value || 0);
+    const ordemAtual = existente ? (Number(existente.ordem) || produtos.findIndex(p => p.codigo === existente.codigo) + 1) : 0;
+    const menorOrdem = produtos.reduce((menor, p) => Math.min(menor, Number(p.ordem) || 0), 0);
     const produto = {
       codigo, nome,
+      ordem: codigoEmEdicao ? ordemAtual : (menorOrdem > 0 ? menorOrdem - 1 : 1),
       categoria: document.getElementById("admin-categoria").value,
       descricao: document.getElementById("admin-descricao").value.trim(),
       preco: precoValor,
@@ -1104,7 +1153,7 @@ document.getElementById("nav-config").addEventListener("click", () => document.g
 (function carregarCacheInicial() {
   try {
     const dados = JSON.parse(localStorage.getItem("bela_modas_produtos_v1") || "null");
-    if (Array.isArray(dados)) { produtos = dados.map(normalizarProduto); mostrarProdutos(); renderDestaques(); }
+    if (Array.isArray(dados)) { produtos = dados.map(normalizarProduto); ordenarProdutosLocalmente(); mostrarProdutos(); renderDestaques(); }
   } catch (_) {}
 })();
 

@@ -283,6 +283,20 @@
     });
   }
 
+  async function salvarOrdemProdutos(codigos) {
+    exigirSessao();
+
+    if (!Array.isArray(codigos) || codigos.some(codigo => !String(codigo || "").trim())) {
+      throw new Error("A lista de produtos para ordenar é inválida.");
+    }
+
+    return requisicaoPost({
+      acao: "ordenar",
+      token: tokenAdmin,
+      codigos: codigos.map(codigo => String(codigo))
+    });
+  }
+
   function arquivoBase64(arquivo, tiposPermitidos, limite) {
     return new Promise((resolve, reject) => {
       if (!arquivo || !tiposPermitidos.includes(arquivo.type)) {
@@ -352,6 +366,7 @@
     estaLogado,
     salvarProduto,
     excluirProduto,
+    salvarOrdemProdutos,
     enviarFoto,
     enviarVideo
   });
