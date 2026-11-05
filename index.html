@@ -265,8 +265,6 @@ footer strong {
 }
 
 footer p { color:#e6c98c; font-size:10px; letter-spacing:2px; margin:10px 0 22px; }
-#abrir-admin { background:transparent; color:#f5d58f; border:1px solid #d7ad60; border-radius:8px; padding:12px 18px; font-weight:700; cursor:pointer; }
-#abrir-admin:hover { background:#7b1027; }
 
 
 .modal-fundo {
@@ -371,10 +369,6 @@ footer p { color:#e6c98c; font-size:10px; letter-spacing:2px; margin:10px 0 22px
 .painel-conteudo input, .painel-conteudo select, .painel-conteudo textarea { width:100%; padding:11px; border:1px solid #D8C9C1; background:white; font:inherit; }
 .linha-form { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .item-carrinho { padding:12px 0; border-bottom:1px solid #D8C9C1; display:flex; justify-content:space-between; gap:10px; font-size:13px; }
-.admin-item-produto { align-items:center; flex-wrap:wrap; }
-.admin-item-produto > span:first-child { flex:1 1 100%; }
-.admin-destaque-toggle { display:inline-flex!important; align-items:center; gap:5px; margin:0!important; white-space:nowrap; color:#650817; font-size:11px!important; cursor:pointer; }
-.painel-conteudo .admin-destaque-toggle input { width:auto!important; padding:0!important; margin:0; accent-color:#650817; }
 #fotos-atuais { display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:10px; margin:10px 0; }
 .foto-admin { border:1px solid #D8C9C1; border-radius:8px; padding:8px; background:white; min-width:0; }
 .foto-admin img { width:100%; aspect-ratio:3/4; object-fit:cover; display:block; border-radius:5px; background:#eee; }
@@ -415,7 +409,6 @@ footer p { color:#e6c98c; font-size:10px; letter-spacing:2px; margin:10px 0 22px
   .busca { width:100%; }
   .nome { font-size:16px; }
   .produtos { gap:20px 11px; }
-  .linha-form { grid-template-columns:1fr; }
   .painel-conteudo { padding:20px 16px; }
 }
 
@@ -455,14 +448,14 @@ body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); background-colo
 .categoria-visual strong { margin:0 0 5px; color:#fff2d9; font:normal 17px Arial,sans-serif; }
 .categoria-visual small { color:#f5d28b; font-size:10px; }
 .categorias { display:none; }
-.navegacao-inferior { position:fixed; z-index:8; left:0; right:0; bottom:0; min-height:68px; padding:7px 4px calc(7px + env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(5,1fr); background:linear-gradient(100deg,#250108,#650817 50%,#250108); border-top:1px solid #e8bd70; box-shadow:0 -8px 25px rgba(0,0,0,.35); }
+.navegacao-inferior { position:fixed; z-index:8; left:0; right:0; bottom:0; min-height:68px; padding:7px 4px calc(7px + env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(4,1fr); background:linear-gradient(100deg,#250108,#650817 50%,#250108); border-top:1px solid #e8bd70; box-shadow:0 -8px 25px rgba(0,0,0,.35); }
 .navegacao-inferior button { min-width:0; border:0; border-right:1px solid rgba(232,189,112,.42); background:transparent; color:#f4d28e; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font:11px Arial,sans-serif; cursor:pointer; }
 .navegacao-inferior button:last-child { border-right:0; }
 .navegacao-inferior button span { font-size:26px; line-height:1.1; color:#f7d58e; }
 .navegacao-inferior .sacola-icone { position:relative; display:grid; place-items:center; width:30px; height:29px; }
 .navegacao-inferior .sacola-icone .icone-sacola-svg { width:27px; height:27px; display:block; fill:none; stroke:#f7d58e; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .navegacao-inferior .sacola-icone i { position:absolute; right:-11px; top:-5px; min-width:16px; height:16px; padding:1px 4px; border-radius:20px; background:#f5d28a; color:#3a0611; font: bold 10px Arial; font-style:normal; }
-#abrir-admin { margin-top:10px; }
+#abrir-admin { display:inline-block; margin-top:10px; color:#f5d58f; border:1px solid #d7ad60; border-radius:8px; padding:10px 15px; text-decoration:none; font-size:11px; }
 footer { padding-bottom:30px; }
 @media(max-width:520px) {
   .cabecalho-marca { min-height:150px; }
@@ -555,14 +548,13 @@ footer { padding-top:24px; }
 
 <footer id="rodape">
   <strong>Bela Modas</strong>
-  <button id="abrir-admin" type="button">⚙ CONFIGURAR CATÁLOGO · ADICIONAR PRODUTOS E FOTOS</button>
+  <a id="abrir-admin" href="admin.html" target="_blank" rel="noopener">Acesso administrativo</a>
 </footer>
 <nav class="navegacao-inferior" aria-label="Navegação principal">
   <button type="button" data-ir="inicio"><span>⌂</span>Início</button>
   <button type="button" data-ir="destaques"><span>★</span>Destaques</button>
   <button type="button" data-ir="categorias"><span>▦</span>Categorias</button>
   <button type="button" id="nav-sacola"><span class="sacola-icone"><svg class="icone-sacola-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5.5 8.5h13l1.1 12h-15.2l1.1-12Z"/><path d="M9 9V6.8a3 3 0 0 1 6 0V9"/></svg><i id="contador-sacola-nav">0</i></span>Sacola</button>
-  <button type="button" id="nav-config"><span>⚙</span>Configurações</button>
 </nav>
 
 <div class="modal-fundo" id="modal">
@@ -583,36 +575,7 @@ footer { padding-top:24px; }
   <button class="botao-principal" id="enviar-whatsapp">Enviar pedido pelo WhatsApp</button>
   <p class="aviso-demo">Ao continuar, seu pedido será preparado no WhatsApp da Bela Modas para você revisar e enviar.</p>
 </div></div>
-<div class="painel-extra" id="painel-admin"><div class="painel-conteudo">
-  <button class="fechar" data-fechar="painel-admin">×</button><h3>Configurar catálogo</h3>
-  <div id="admin-login">
-    <p class="aviso-demo">Entre com a senha administrativa para carregar e gerenciar os produtos da loja.</p>
-    <form id="form-login">
-      <label for="admin-senha">Senha administrativa</label>
-      <input id="admin-senha" type="password" autocomplete="current-password" minlength="12" required>
-      <button class="botao-principal" type="submit">Entrar</button>
-    </form>
-  </div>
-  <div id="admin-conteudo" hidden>
-  <p class="aviso-demo">Os produtos e as fotos são sincronizados com a planilha e o Drive. As imagens enviadas para a vitrine ficam públicas para que as clientes possam visualizá-las.</p>
-  <form id="form-produto">
-    <div class="linha-form"><div><label for="admin-codigo">Referência</label><input id="admin-codigo" required placeholder="Ex.: BM005"></div><div><label for="admin-categoria">Categoria</label><select id="admin-categoria"><option>Feminino</option><option>Masculino</option><option>Infantil</option><option>Acessórios</option></select></div></div>
-    <label for="admin-nome">Nome do produto</label><input id="admin-nome" required placeholder="Nome da peça">
-    <label for="admin-descricao">Descrição</label><textarea id="admin-descricao" rows="3" placeholder="Detalhes, tecido, cor e outras informações"></textarea>
-    <div class="linha-form"><div><label for="admin-preco">Preço (R$)</label><input id="admin-preco" type="number" min="0" step="0.01" placeholder="49,90"></div><div><label for="admin-estoque">Estoque / quantidade</label><input id="admin-estoque" type="number" min="0" step="1" placeholder="Ex.: 5"></div></div>
-    <div class="linha-form"><div><label for="admin-tamanhos">Tamanhos disponíveis</label><input id="admin-tamanhos" placeholder="P, M, G ou 21/22"></div><div><label for="admin-disponibilidade">Disponibilidade</label><input id="admin-disponibilidade" placeholder="Disponível / Sob consulta"></div></div>
-    <div class="linha-form"><div><label><input id="admin-ativo" type="checkbox" checked style="width:auto"> Produto ativo/publicado</label></div></div>
-    <label for="admin-foto">Adicionar fotos (até 5 no total)</label><input id="admin-foto" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>Na edição, as fotos atuais aparecem abaixo. Você pode manter, remover ou escolher a foto principal.</small>
-    <div id="fotos-atuais"></div>
-    <label><input id="admin-nova-capa" type="checkbox" style="width:auto"> Usar a primeira foto nova como foto principal</label>
-    <label for="admin-video">Adicionar ou substituir vídeo (opcional)</label><input id="admin-video" type="file" accept="video/mp4,video/webm"><div id="video-atual"></div><label><input id="admin-remover-video" type="checkbox" style="width:auto"> Remover o vídeo atual</label><small>Vídeo MP4 ou WebM de até 8 MB.</small>
-    <div id="progresso-salvamento" role="status" aria-live="polite"></div>
-    <button class="botao-principal" id="salvar-produto" type="submit">＋ Salvar produto na nuvem</button>
-    <button class="acao-header" id="cancelar-edicao" type="button">Limpar formulário</button>
-  </form><hr><h3>Produtos cadastrados</h3><div id="lista-admin"></div>
-  <button class="acao-header" id="sair-admin" type="button">Sair da administração</button>
-  </div>
-</div></div>
+
 
 <script src="sync.js"></script>
 <script>
@@ -621,9 +584,6 @@ footer { padding-top:24px; }
 let produtos = [];
 let categoriaAtual = "Todos";
 let carrinho = [];
-let codigoEmEdicao = null;
-let fotosExistentesEdicao = [];
-let fotoPrincipalEdicao = "";
 
 const areaProdutos = document.getElementById("produtos");
 const busca = document.getElementById("busca");
@@ -857,10 +817,7 @@ function atualizarCarrinho() {
 function abrirPainel(id) {
   document.getElementById(id).classList.add("aberto");
   if (id === "painel-carrinho") atualizarCarrinho();
-  if (id === "painel-admin") atualizarPainelAdmin();
 }
-// O layout novo usa a navegação inferior no lugar do antigo botão do cabeçalho.
-document.getElementById("abrir-admin").onclick = () => abrirPainel("painel-admin");
 document.querySelectorAll("[data-fechar]").forEach(b => b.onclick = () => document.getElementById(b.dataset.fechar).classList.remove("aberto"));
 
 function ordenarProdutosLocalmente() {
@@ -871,161 +828,6 @@ function ordenarProdutosLocalmente() {
   });
 }
 
-async function moverProduto(codigo, deslocamento) {
-  if (!BelaSync || typeof BelaSync.salvarOrdemProdutos !== "function") {
-    alert("A conexão ainda não está preparada para salvar a ordem. Atualize também o arquivo sync.js.");
-    return;
-  }
-  const indice = produtos.findIndex(p => p.codigo === codigo);
-  const destino = indice + deslocamento;
-  if (indice < 0 || destino < 0 || destino >= produtos.length) return;
-
-  const anterior = produtos.map(p => ({ ...p }));
-  [produtos[indice], produtos[destino]] = [produtos[destino], produtos[indice]];
-  produtos.forEach((p, i) => { p.ordem = i + 1; });
-  renderListaAdmin();
-  mostrarProdutos();
-  renderDestaques();
-
-  try {
-    const codigos = produtos.map(p => p.codigo);
-    await BelaSync.salvarOrdemProdutos(codigos);
-    salvarCacheProdutos();
-  } catch (err) {
-    produtos = anterior;
-    ordenarProdutosLocalmente();
-    renderListaAdmin();
-    mostrarProdutos();
-    renderDestaques();
-    alert(err.message || "Não foi possível salvar a ordem dos produtos.");
-  }
-}
-
-async function alterarDestaqueRapido(produto, controle) {
-  const novoEstado = controle.checked;
-  controle.disabled = true;
-  try {
-    await BelaSync.salvarProduto({
-      codigo: produto.codigo,
-      nome: produto.nome,
-      ordem: produto.ordem,
-      categoria: produto.categoria,
-      descricao: produto.descricao,
-      preco: Number(produto.precoValor || 0),
-      estoque: produto.estoque,
-      disponibilidade: produto.disponibilidade,
-      foto_principal: produto.foto || "",
-      fotos_adicionais: (produto.fotos || []).filter(url => url && url !== produto.foto).join("|"),
-      tamanhos: produto.tamanhos || "",
-      video_url: produto.video || "",
-      destaque: novoEstado,
-      ativo: produto.ativo
-    });
-    produto.destaque = novoEstado;
-    salvarCacheProdutos();
-    renderDestaques();
-    controle.parentElement.title = novoEstado ? "Remover da vitrine de destaques" : "Colocar na vitrine de destaques";
-    controle.setAttribute("aria-label", `${novoEstado ? "Remover" : "Adicionar"} ${produto.nome} aos destaques`);
-  } catch (err) {
-    controle.checked = !novoEstado;
-    alert(err.message || "Não foi possível atualizar o destaque do produto.");
-  } finally {
-    controle.disabled = false;
-  }
-}
-
-function renderListaAdmin() {
-  const area = document.getElementById("lista-admin"); area.replaceChildren();
-  produtos.forEach((p, indice) => {
-    const linha = document.createElement("div"); linha.className = "item-carrinho admin-item-produto";
-    const nome = document.createElement("span"); nome.textContent = `${p.codigo} — ${p.nome}${p.ativo ? "" : " (inativo)"}`;
-    const subir = document.createElement("button"); subir.type = "button"; subir.textContent = "↑";
-    subir.title = "Mover produto para cima"; subir.setAttribute("aria-label", `Mover ${p.nome} para cima`);
-    subir.disabled = indice === 0; subir.onclick = () => moverProduto(p.codigo, -1);
-    const descer = document.createElement("button"); descer.type = "button"; descer.textContent = "↓";
-    descer.title = "Mover produto para baixo"; descer.setAttribute("aria-label", `Mover ${p.nome} para baixo`);
-    descer.disabled = indice === produtos.length - 1; descer.onclick = () => moverProduto(p.codigo, 1);
-    const destaqueLabel = document.createElement("label");
-    destaqueLabel.className = "admin-destaque-toggle";
-    destaqueLabel.title = p.destaque ? "Remover da vitrine de destaques" : "Colocar na vitrine de destaques";
-    const destaqueCheck = document.createElement("input");
-    destaqueCheck.type = "checkbox";
-    destaqueCheck.checked = Boolean(p.destaque);
-    destaqueCheck.setAttribute("aria-label", `${p.destaque ? "Remover" : "Adicionar"} ${p.nome} aos destaques`);
-    destaqueCheck.onchange = () => alterarDestaqueRapido(p, destaqueCheck);
-    destaqueLabel.append(destaqueCheck, document.createTextNode(" Destaque"));
-    const editar = document.createElement("button"); editar.type = "button"; editar.textContent = "Editar";
-    editar.onclick = () => preencherFormulario(p);
-    const apagar = document.createElement("button"); apagar.type = "button"; apagar.textContent = "Excluir";
-    apagar.onclick = async () => {
-      if (!confirm(`Excluir ${p.nome} (${p.codigo}) da loja?`)) return;
-      try { await BelaSync.excluirProduto(p.codigo); produtos = produtos.filter(x => x.codigo !== p.codigo); salvarCacheProdutos(); mostrarProdutos(); renderListaAdmin(); }
-      catch (err) { alert(err.message || "Não foi possível excluir o produto."); }
-    };
-    linha.append(nome, subir, descer, destaqueLabel, editar, apagar); area.appendChild(linha);
-  });
-}
-function renderFotosExistentes() {
-  const area = document.getElementById("fotos-atuais"); area.replaceChildren();
-  if (!codigoEmEdicao || !fotosExistentesEdicao.length) {
-    area.textContent = codigoEmEdicao ? "Este produto não tem fotos cadastradas." : "";
-    return;
-  }
-  fotosExistentesEdicao.forEach((url, indice) => {
-    const cartao = document.createElement("div"); cartao.className = "foto-admin";
-    const img = document.createElement("img"); img.src = gerarUrlMiniatura(url); img.alt = `Foto ${indice + 1}`; img.loading = "lazy"; img.decoding = "async";
-    const manterLabel = document.createElement("label");
-    const manter = document.createElement("input"); manter.type = "checkbox"; manter.checked = true; manter.dataset.url = url; manter.className = "manter-foto";
-    manterLabel.append(manter, document.createTextNode(" Manter foto"));
-    const capaLabel = document.createElement("label");
-    const capa = document.createElement("input"); capa.type = "radio"; capa.name = "foto-principal-existente"; capa.value = url; capa.checked = url === fotoPrincipalEdicao; capa.className = "escolher-capa";
-    capa.addEventListener("change", () => { fotoPrincipalEdicao = capa.value; document.getElementById("admin-nova-capa").checked = false; });
-    capaLabel.append(capa, document.createTextNode(" Foto principal"));
-    manter.addEventListener("change", () => {
-      if (!manter.checked && fotoPrincipalEdicao === url) {
-        fotoPrincipalEdicao = fotosExistentesEdicao.find(x => x !== url && Array.from(area.querySelectorAll(".manter-foto")).some(c => c.checked && c.dataset.url === x)) || "";
-        const radio = Array.from(area.querySelectorAll(".escolher-capa")).find(r => r.value === url); if (radio) radio.checked = false;
-      }
-    });
-    cartao.append(img, manterLabel, capaLabel); area.appendChild(cartao);
-  });
-}
-function preencherFormulario(p) {
-  codigoEmEdicao = p.codigo;
-  fotosExistentesEdicao = [...(p.fotos || [])];
-  fotoPrincipalEdicao = p.foto || fotosExistentesEdicao[0] || "";
-  document.getElementById("admin-codigo").value = p.codigo;
-  document.getElementById("admin-codigo").readOnly = true;
-  document.getElementById("admin-nome").value = p.nome;
-  document.getElementById("admin-categoria").value = p.categoria;
-  document.getElementById("admin-descricao").value = p.descricao || "";
-  document.getElementById("admin-preco").value = p.precoValor || "";
-  document.getElementById("admin-estoque").value = p.estoque ?? 0;
-  document.getElementById("admin-tamanhos").value = p.tamanhos || "";
-  document.getElementById("admin-disponibilidade").value = p.disponibilidade || "Consulte disponibilidade";
-  document.getElementById("admin-ativo").checked = Boolean(p.ativo);
-  document.getElementById("admin-foto").value = "";
-  document.getElementById("admin-video").value = "";
-  document.getElementById("admin-nova-capa").checked = false;
-  document.getElementById("admin-remover-video").checked = false;
-  const videoArea = document.getElementById("video-atual"); videoArea.replaceChildren();
-  if (p.video) { const link = document.createElement("a"); link.href = p.video; link.target = "_blank"; link.rel = "noopener"; link.textContent = "Ver vídeo atual"; videoArea.appendChild(link); }
-  renderFotosExistentes();
-  document.getElementById("salvar-produto").textContent = "Salvar alterações";
-  document.getElementById("form-produto").scrollIntoView({behavior:"smooth",block:"start"});
-}
-function limparFormulario() {
-  codigoEmEdicao = null; fotosExistentesEdicao = []; fotoPrincipalEdicao = "";
-  document.getElementById("form-produto").reset();
-  document.getElementById("admin-codigo").readOnly = false;
-  document.getElementById("fotos-atuais").replaceChildren();
-  document.getElementById("video-atual").replaceChildren();
-  const progresso = document.getElementById("progresso-salvamento"); progresso.textContent = ""; progresso.classList.remove("visivel");
-  document.getElementById("salvar-produto").textContent = "＋ Salvar produto na nuvem";
-}
-function mostrarProgresso(mensagem) {
-  const area = document.getElementById("progresso-salvamento"); area.textContent = mensagem; area.classList.add("visivel");
-}
 function salvarCacheProdutos() {
   try { localStorage.setItem("bela_modas_produtos_v1", JSON.stringify(produtos)); } catch (_) {}
 }
@@ -1037,31 +839,6 @@ async function carregarProdutos() {
   mostrarProdutos();
   renderDestaques();
 }
-function atualizarPainelAdmin() {
-  const logado = BelaSync.estaLogado();
-  document.getElementById("admin-login").hidden = logado;
-  document.getElementById("admin-conteudo").hidden = !logado;
-  if (logado) renderListaAdmin();
-}
-document.getElementById("form-login").addEventListener("submit", async e => {
-  e.preventDefault();
-  const botao = e.submitter || e.target.querySelector("button[type=submit]");
-  botao.disabled = true;
-  try {
-    await BelaSync.entrar(document.getElementById("admin-senha").value);
-    document.getElementById("admin-senha").value = "";
-    await carregarProdutos(); atualizarPainelAdmin();
-  } catch (err) { alert(err.message || "Falha ao entrar."); }
-  finally { botao.disabled = false; }
-});
-document.getElementById("sair-admin").onclick = () => { BelaSync.sair(); atualizarPainelAdmin(); };
-document.getElementById("cancelar-edicao").onclick = limparFormulario;
-document.getElementById("admin-foto").addEventListener("change", () => {
-  const novas = document.getElementById("admin-foto").files.length;
-  const mantidas = document.querySelectorAll("#fotos-atuais .manter-foto:checked").length;
-  if (novas + mantidas > 5) alert(`Você selecionou ${novas} foto(s) novas e manteve ${mantidas}. O limite é 5 fotos no total.`);
-});
-
 function comprimirImagem(arquivo) {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(arquivo); const img = new Image();
@@ -1090,78 +867,6 @@ function dataUrlParaArquivo(dataUrl, nome) {
   for (let i = 0; i < binario.length; i++) bytes[i] = binario.charCodeAt(i);
   return new File([bytes], nome, { type: tipo });
 }
-document.getElementById("form-produto").addEventListener("submit", async e => {
-  e.preventDefault();
-  const botao = document.getElementById("salvar-produto"); botao.disabled = true;
-  const progresso = document.getElementById("progresso-salvamento"); progresso.classList.add("visivel");
-  try {
-    const codigo = document.getElementById("admin-codigo").value.trim();
-    const nome = document.getElementById("admin-nome").value.trim();
-    const existente = produtos.find(p => p.codigo.toLowerCase() === codigo.toLowerCase());
-    if (!codigo || !nome) throw new Error("Preencha a referência e o nome.");
-    if (!codigoEmEdicao && existente) throw new Error("Essa referência já existe.");
-    const arquivos = Array.from(document.getElementById("admin-foto").files);
-    const manter = Array.from(document.querySelectorAll("#fotos-atuais .manter-foto:checked")).map(x => x.dataset.url);
-    if (manter.length + arquivos.length > 5) throw new Error(`O produto pode ter até 5 fotos. Você manteve ${manter.length} e selecionou ${arquivos.length} novas.`);
-    const videoArquivo = document.getElementById("admin-video").files[0];
-    if (videoArquivo && (videoArquivo.size > 8 * 1024 * 1024 || !["video/mp4", "video/webm"].includes(videoArquivo.type))) throw new Error("Use um vídeo MP4 ou WebM de até 8 MB.");
-
-    let urlsNovas = [];
-    if (arquivos.length) {
-      mostrarProgresso(`Preparando ${arquivos.length} foto(s)…`);
-      const imagens = await Promise.all(arquivos.map(comprimirImagem));
-      mostrarProgresso(`Enviando ${arquivos.length} foto(s) para o Drive…`);
-      const resultados = new Array(imagens.length); let proxima = 0;
-      async function trabalhador() {
-        while (true) {
-          const i = proxima++; if (i >= imagens.length) return;
-          const arquivo = dataUrlParaArquivo(imagens[i].completa, `${codigo}-${Date.now()}-${i + 1}.webp`);
-          const resposta = await BelaSync.enviarFoto(codigo, arquivo);
-          resultados[i] = resposta.url;
-          mostrarProgresso(`Fotos enviadas: ${resultados.filter(Boolean).length} de ${imagens.length}…`);
-        }
-      }
-      await Promise.all(Array.from({length: Math.min(3, imagens.length)}, () => trabalhador()));
-      urlsNovas = resultados;
-    }
-    let videoUrl = existente?.video || "";
-    if (document.getElementById("admin-remover-video").checked) videoUrl = "";
-    if (videoArquivo) { mostrarProgresso("Enviando vídeo…"); videoUrl = (await BelaSync.enviarVideo(codigo, videoArquivo)).url; }
-
-    const todasFotos = [...manter, ...urlsNovas];
-    let fotoPrincipal = fotoPrincipalEdicao && manter.includes(fotoPrincipalEdicao) ? fotoPrincipalEdicao : (manter[0] || "");
-    if (document.getElementById("admin-nova-capa").checked && urlsNovas.length) fotoPrincipal = urlsNovas[0];
-    if (!fotoPrincipal && urlsNovas.length) fotoPrincipal = urlsNovas[0];
-    const fotosOrdenadas = fotoPrincipal ? [fotoPrincipal, ...todasFotos.filter(url => url !== fotoPrincipal)] : todasFotos;
-    mostrarProgresso("Gravando os dados do produto na planilha…");
-    const precoValor = Number(document.getElementById("admin-preco").value || 0);
-    const ordemAtual = existente ? (Number(existente.ordem) || produtos.findIndex(p => p.codigo === existente.codigo) + 1) : 0;
-    const ordensValidas = produtos.map(p => Number(p.ordem)).filter(n => Number.isFinite(n) && n > 0);
-    const menorOrdem = ordensValidas.length ? Math.min(...ordensValidas) : 1;
-    const produto = {
-      codigo, nome,
-      ordem: codigoEmEdicao ? ordemAtual : menorOrdem - 1,
-      categoria: document.getElementById("admin-categoria").value,
-      descricao: document.getElementById("admin-descricao").value.trim(),
-      preco: precoValor,
-      estoque: Number(document.getElementById("admin-estoque").value || 0),
-      disponibilidade: document.getElementById("admin-disponibilidade").value.trim() || "Consulte disponibilidade",
-      foto_principal: fotosOrdenadas[0] || "",
-      fotos_adicionais: fotosOrdenadas.slice(1).join("|"),
-      tamanhos: document.getElementById("admin-tamanhos").value.trim(),
-      video_url: videoUrl,
-      destaque: existente ? Boolean(existente.destaque) : false,
-      ativo: document.getElementById("admin-ativo").checked
-    };
-    await BelaSync.salvarProduto(produto);
-    mostrarProgresso("Produto salvo. Atualizando a vitrine…");
-    await carregarProdutos(); renderListaAdmin(); limparFormulario();
-    alert("Produto salvo e sincronizado com a loja!");
-  } catch (err) {
-    mostrarProgresso("Não foi possível concluir o salvamento: " + (err.message || "erro desconhecido"));
-    alert(err.message || "Não foi possível salvar o produto.");
-  } finally { botao.disabled = false; }
-});
 document.getElementById("enviar-whatsapp").onclick = () => {
   if (!carrinho.length) { alert("Sua sacola está vazia."); return; }
   if (!numeroWhatsAppLoja) { alert("O número de WhatsApp da Bela Modas ainda precisa ser configurado no código."); return; }
@@ -1187,7 +892,7 @@ document.querySelectorAll("[data-categoria-visual]").forEach(botao => botao.addE
 busca.addEventListener("input", mostrarProdutos);
 document.getElementById("fechar").addEventListener("click", () => modal.classList.remove("aberto"));
 modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("aberto"); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") { modal.classList.remove("aberto"); document.querySelectorAll(".painel-extra.aberto").forEach(x => x.classList.remove("aberto")); } });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { modal.classList.remove("aberto"); document.getElementById("painel-carrinho")?.classList.remove("aberto"); } });
 
 
 document.querySelectorAll(".navegacao-inferior [data-ir]").forEach(botao => botao.addEventListener("click", () => {
@@ -1195,7 +900,6 @@ document.querySelectorAll(".navegacao-inferior [data-ir]").forEach(botao => bota
   document.querySelector(destino)?.scrollIntoView({behavior:"smooth",block:"start"});
 }));
 document.getElementById("nav-sacola").addEventListener("click", () => abrirPainel("painel-carrinho"));
-document.getElementById("nav-config").addEventListener("click", () => document.getElementById("abrir-admin").click());
 
 (function carregarCacheInicial() {
   try {
