@@ -1,7 +1,7 @@
 {
-  "id": "https://lexxluttor.github.io/bela-modas-catalogo/",
+  "id": "https://lexxluttor.github.io/bela-modas-catalogo/?app=bela-vendedor-2026",
   "name": "Bela Modas | Vendedor",
-  "short_name": "Bela Vendedor",
+  "short_name": "BM Vendedor",
   "description": "Aplicativo independente dos vendedores parceiros da Bela Modas",
   "lang": "pt-BR",
   "start_url": "https://lexxluttor.github.io/bela-modas-catalogo/",
