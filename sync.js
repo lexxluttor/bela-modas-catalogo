@@ -234,6 +234,30 @@
     });
   }
 
+  function buscarEstoqueCatalogo() {
+    verificarConfiguracao();
+    return new Promise((resolve, reject) => {
+      const callback = "__belaEstoque_" + gerarNonce();
+      const script = document.createElement("script");
+      let finalizado = false;
+      const timer = setTimeout(() => terminar(new Error("Consulta de estoque indisponível.")), CONFIG.TIMEOUT);
+      function terminar(erro, dados) {
+        if (finalizado) return;
+        finalizado = true;
+        clearTimeout(timer);
+        delete window[callback];
+        script.remove();
+        if (erro) reject(erro);
+        else if (!dados || dados.sucesso !== true || !Array.isArray(dados.grupos)) reject(new Error(dados?.erro || "Resposta de estoque inválida."));
+        else resolve(dados.grupos);
+      }
+      window[callback] = dados => terminar(null, dados);
+      script.onerror = () => terminar(new Error("Falha ao consultar estoque."));
+      script.src = CONFIG.API_URL + "?acao=estoqueCatalogo&callback=" + encodeURIComponent(callback) + "&tempo=" + Date.now();
+      document.head.appendChild(script);
+    });
+  }
+
   function buscarBanner() {
     verificarConfiguracao();
     return new Promise((resolve, reject) => {
@@ -541,6 +565,7 @@
 
   window.BelaSync = Object.freeze({
     buscarProdutos,
+    buscarEstoqueCatalogo,
     buscarBanner,
     salvarBanner,
     entrar,
