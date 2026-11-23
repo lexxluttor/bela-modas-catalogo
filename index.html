@@ -50,6 +50,32 @@ button,.btn{border:0;border-radius:9px;padding:12px 15px;background:var(--v);col
 "use strict";
 const $=id=>document.getElementById(id),money=v=>Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 let seller=null,products=[],lastPanel=null,orderFilter="todos";
+let estoquePorBase=null,erroEstoque="";
+function tamanhosDoVendedor(p){
+  if(p.idCatalogo){
+    if(!estoquePorBase)return "Consultando tamanhos…";
+    if(erroEstoque)return "Tamanhos indisponíveis no momento";
+    const variacoes=estoquePorBase.get(p.idCatalogo);
+    if(!variacoes)return "Tamanhos não encontrados no estoque";
+    const encontrados=[...new Set(variacoes.filter(v=>Number(v.estoque)>0).map(v=>String(v.tamanho||"").trim()).filter(Boolean))];
+    return encontrados.length?"Tamanhos disponíveis: "+encontrados.join(" · "):"Sem tamanhos disponíveis no momento";
+  }
+  const cadastrados=[...new Set(p.tamanhos.split(/[,;|\n]+/).map(t=>t.trim()).filter(Boolean))];
+  return cadastrados.length?"Tamanhos cadastrados: "+cadastrados.join(" · "):"Tamanhos não informados";
+}
+async function carregarTamanhosEstoque(){
+  try{
+    const grupos=await BelaSync.buscarEstoqueCatalogo();
+    estoquePorBase=new Map(grupos.map(g=>[String(g.codigo_base||"").trim().toLowerCase(),Array.isArray(g.variacoes)?g.variacoes:[]]));
+    erroEstoque="";
+  }catch(err){
+    estoquePorBase=new Map();
+    erroEstoque=String(err?.message||"Consulta de estoque indisponível");
+    console.warn("Tamanhos do vendedor:",erroEstoque);
+  }
+  renderProducts();
+}
+
 function openSellerTab(tab){document.querySelectorAll(".seller-section").forEach(el=>el.classList.toggle("hidden",el.dataset.section!==tab));document.querySelectorAll("[data-tab]").forEach(el=>el.classList.toggle("selected",el.dataset.tab===tab));$("seller-welcome").classList.toggle("hidden",tab!=="vendas");window.scrollTo(0,0);}
 document.querySelectorAll("[data-tab]").forEach(el=>el.addEventListener("click",()=>openSellerTab(el.dataset.tab)));
 function canonicalStatus(status){return ({confirmada:"confirmando",concluida:"finalizado",cancelada:"cancelado"})[status]||status||"aguardando";}
@@ -62,7 +88,7 @@ function normalize(p){
  let price=p.preco_valor??p.preco??0;
  if(typeof price==="string"){price=price.trim().replace(/^R\\$\\s*/i,"").replace(/\\s/g,"");if(price.includes(","))price=price.replace(/\\./g,"").replace(",",".");}
  const photos=Array.isArray(p.fotos)?p.fotos:[p.foto_principal,...String(p.fotos_adicionais||"").split("|")].filter(Boolean);
- return {codigo:String(p.codigo||""),nome:String(p.nome||""),categoria:String(p.categoria||""),preco:Number(price)||0,disponibilidade:String(p.disponibilidade||"Consulte disponibilidade"),foto:String(p.foto_principal||photos[0]||""),comissaoPercentual:Number(String(p.comissao_percentual??p.comissaoPercentual??p.comissao??5).replace(",","."))||5,ativo:p.ativo!==false&&p.ativo!=="false"};
+ return {codigo:String(p.codigo||""),nome:String(p.nome||""),categoria:String(p.categoria||""),preco:Number(price)||0,disponibilidade:String(p.disponibilidade||"Consulte disponibilidade"),foto:String(p.foto_principal||photos[0]||""),comissaoPercentual:Number(String(p.comissao_percentual??p.comissaoPercentual??p.comissao??5).replace(",","."))||5,tamanhos:String(p.tamanhos||""),idCatalogo:String(p.id_catalogo||"").trim().toLowerCase(),ativo:p.ativo!==false&&p.ativo!=="false"};
 }
 function sellerLink(product){
  const u=new URL("https://belamodas.github.io/");u.searchParams.set("produto",product.codigo);u.searchParams.set("vendedor",seller.codigo);u.searchParams.set("nomeVendedor",seller.nome||"");return u.href;
@@ -77,7 +103,7 @@ function renderProducts(){
  const list=products.filter(p=>p.ativo&&(!q||(p.nome+" "+p.codigo+" "+p.categoria).toLocaleLowerCase("pt-BR").includes(q)));
  if(!list.length){area.innerHTML='<div class="empty">Nenhum produto encontrado.</div>';return;}
  list.forEach(p=>{const card=document.createElement("article");card.className="product";if(p.foto){const img=document.createElement("img");img.src=p.foto;img.alt=p.nome;img.loading="lazy";img.decoding="async";card.appendChild(img);}
- const info=document.createElement("div");info.className="info";const cat=document.createElement("div");cat.className="cat";setText(cat,p.categoria);const name=document.createElement("div");name.className="name";setText(name,p.nome);const price=document.createElement("div");price.className="price";setText(price,p.preco?money(p.preco):"Consulte o preço");const disp=document.createElement("div");disp.className="disp";setText(disp,p.disponibilidade);const btn=document.createElement("button");btn.className="gold";btn.textContent="Compartilhar produto";btn.addEventListener("click",()=>shareProduct(p));if(p.comissaoPercentual>5){const badge=document.createElement("span");badge.className="special-commission";setText(badge,"★ Comissão especial: "+p.comissaoPercentual.toLocaleString("pt-BR")+"%");info.append(badge);}info.append(cat,name,price,disp,btn);card.appendChild(info);area.appendChild(card);});
+ const info=document.createElement("div");info.className="info";const cat=document.createElement("div");cat.className="cat";setText(cat,p.categoria);const name=document.createElement("div");name.className="name";setText(name,p.nome);const price=document.createElement("div");price.className="price";setText(price,p.preco?money(p.preco):"Consulte o preço");const disp=document.createElement("div");disp.className="disp";setText(disp,tamanhosDoVendedor(p));const btn=document.createElement("button");btn.className="gold";btn.textContent="Compartilhar produto";btn.addEventListener("click",()=>shareProduct(p));if(p.comissaoPercentual>5){const badge=document.createElement("span");badge.className="special-commission";setText(badge,"★ Comissão especial: "+p.comissaoPercentual.toLocaleString("pt-BR")+"%");info.append(badge);}info.append(cat,name,price,disp,btn);card.appendChild(info);area.appendChild(card);});
 }
 function renderPanel(data){
  seller=data.vendedor||{};const summary=data.resumo||{};setText($("ola"),"Olá, "+(seller.nome||"vendedor")+"!");
@@ -90,7 +116,7 @@ function renderPanel(data){
  $("login").classList.add("hidden");$("troca-inicial").classList.add("hidden");$("app").classList.remove("hidden");
 }
 async function loadPanel(){renderPanel(await BelaSync.painelVendedor());}
-async function loadProducts(){try{products=(await BelaSync.buscarProdutos()).map(normalize);renderProducts();}catch(e){$("catalogo").innerHTML='<div class="empty">Falha ao carregar produtos: '+String(e.message||"erro").replace(/[<>&"]/g,"")+'</div>';}}
+async function loadProducts(){try{products=(await BelaSync.buscarProdutos()).map(normalize);renderProducts();await carregarTamanhosEstoque();}catch(e){$("catalogo").innerHTML='<div class="empty">Falha ao carregar produtos: '+String(e.message||"erro").replace(/[<>&"]/g,"")+'</div>';}}
 $("login-form").addEventListener("submit",async e=>{e.preventDefault();const b=$("login-btn");b.disabled=true;setText($("login-msg"),"Validando acesso…");try{const result=await BelaSync.entrarVendedor($("email").value,$("senha").value);if(result.trocarSenha){$("login").classList.add("hidden");$("troca-inicial").classList.remove("hidden");}else{await loadPanel();await loadProducts();}}catch(err){setText($("login-msg"),err.message||"Não foi possível entrar.");}finally{b.disabled=false;}});
 $("troca-inicial-form").addEventListener("submit",async e=>{e.preventDefault();try{await BelaSync.trocarSenhaVendedor($("senha-inicial").value);$("senha-inicial").value="";await loadPanel();await loadProducts();}catch(err){setText($("troca-inicial-msg"),err.message||"Falha ao salvar a senha.");}});
 $("busca").addEventListener("input",renderProducts);
